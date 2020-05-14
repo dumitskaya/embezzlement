@@ -23,6 +23,8 @@ class Constants(BaseConstants):
     k_min = 1
     k_max = 3
     individial_endowment = 10
+    tax_rate = .5
+
 
 class Subsession(BaseSubsession):
     treatment = models.StringField()
@@ -35,6 +37,9 @@ class Group(BaseGroup):
     k_declare = models.FloatField()
     incentive = models.IntegerField()
     k_belief = models.FloatField()
+
+    def set_payoffs(self):
+        print("SETTTING PAYOOFS")
 
 
 class Player(BasePlayer):

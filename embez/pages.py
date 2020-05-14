@@ -9,7 +9,8 @@ class Intro(Page):
 
 
 class PayTax(Page):
-    pass
+    def before_next_page(self):
+        self.tax_paid = self.player.endowment* Constants.tax_rate
 
 
 class KDeclare(StatePage):
@@ -32,7 +33,7 @@ class KBelief(IndividualPage):
 
 
 class ResultsWaitPage(WaitPage):
-    pass
+    after_all_players_arrive = 'set_payoffs'
 
 
 class Results(Page):
