@@ -34,15 +34,28 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
+    real_k = models.FloatField()
     k_declare = models.FloatField()
     incentive = models.IntegerField()
     k_belief = models.FloatField()
+    taxes_paid = models.CurrencyField()
+    taxes_multiplied = models.CurrencyField()
+    taxes_paid_back = models.CurrencyField()
+    individual_share = models.CurrencyField()
+    embezzled_amount = models.CurrencyField()
 
     def set_payoffs(self):
-        print("SETTTING PAYOOFS")
+        state = self.get_player_by_role('state')
+        self.embezzled_amount = self.taxes_multiplied - self.taxes_paid_back
+        for p in self.get_players():
+            p.payoff = p.endowment - p.tax_paid + self.individual_share
+        state.payoff += self.embezzled_amount
 
 
 class Player(BasePlayer):
+    endowment = models.CurrencyField()
+    tax_paid = models.CurrencyField()
+
     def role(self):
         if self.id_in_group == 1:
             return 'individual'
