@@ -24,6 +24,7 @@ class Constants(BaseConstants):
     k_max = 3
     individial_endowment = 10
     tax_rate = .5
+    coef = .2
 
 
 class Subsession(BaseSubsession):
@@ -45,6 +46,10 @@ class Group(BaseGroup):
     embezzled_amount = models.CurrencyField()
 
     def set_payoffs(self):
+        self.taxes_paid = sum([p.tax_paid for p in self.get_players()])
+        self.taxes_multiplied = self.taxes_paid * self.real_k;
+        self.self.taxes_paid_back = self.taxes_paid * self.k_declare;
+        self.individual_share = self.taxes_paid_back / Constants.players_per_group
         state = self.get_player_by_role('state')
         self.embezzled_amount = self.taxes_multiplied - self.taxes_paid_back
         for p in self.get_players():
