@@ -9,7 +9,6 @@ from otree.api import (
     currency_range,
 )
 
-
 author = 'Your name here'
 
 doc = """
@@ -21,15 +20,25 @@ class Constants(BaseConstants):
     name_in_url = 'embez'
     players_per_group = None
     num_rounds = 1
-
+    k_min = 1
+    k_max = 3
+    individial_endowment = 10
 
 class Subsession(BaseSubsession):
-    pass
+    treatment = models.StringField()
+
+    def creating_session(self):
+        self.treatment = self.session.config.get('treatment')
 
 
 class Group(BaseGroup):
-    pass
+    k_declare = models.FloatField()
+    incentive = models.IntegerField()
+    k_belief = models.FloatField()
 
 
 class Player(BasePlayer):
-    pass
+    def role(self):
+        if self.id_in_group == 1:
+            return 'individual'
+        return 'state'

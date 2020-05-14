@@ -10,14 +10,28 @@ SESSION_CONFIG_DEFAULTS = dict(
 )
 
 SESSION_CONFIGS = [
-    # dict(
-    #    name='public_goods',
-    #    display_name="Public Goods",
-    #    num_demo_participants=3,
-    #    app_sequence=['public_goods', 'payment_info']
-    # ),
+    dict(
+        name='baseline',
+        display_name="Embezzlement game - baseline",
+        num_demo_participants=2,
+        app_sequence=['embez'],
+        treatment='baseline'
+    ),
+    dict(
+        name='negative',
+        display_name="Embezzlement game - negative incentive",
+        num_demo_participants=2,
+        app_sequence=['embez'],
+        treatment='negative'
+    ),
+    dict(
+        name='positive',
+        display_name="Embezzlement game - positive incentive",
+        num_demo_participants=2,
+        app_sequence=['embez'],
+        treatment='positive'
+    ),
 ]
-
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
