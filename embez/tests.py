@@ -13,6 +13,6 @@ class PlayerBot(Bot):
             yield KDeclare, dict(k_declare=random.uniform(Constants.k_min, Constants.k_max))
         else:
             if self.subsession.treatment != 'baseline':
-                yield Incentive, dict(incentive=random.randrange(0, Constants.individial_endowment))
+                yield Incentive, dict(incentive=random.randrange(0, self.player.endowment))
             yield KBelief, dict(k_belief=random.uniform(Constants.k_min, Constants.k_max))
         yield Results

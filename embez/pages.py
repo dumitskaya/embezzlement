@@ -10,7 +10,7 @@ class Intro(Page):
 
 class PayTax(Page):
     def before_next_page(self):
-        self.tax_paid = self.player.endowment* Constants.tax_rate
+        self.player.tax_paid = self.player.endowment* Constants.tax_rate
 
 
 class KDeclare(StatePage):
