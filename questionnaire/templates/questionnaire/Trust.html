@@ -1,0 +1,26 @@
+{% extends "global/Page.html" %}
+{% load otree i18n  hse %}
+
+{% block title %}
+    {% trans 'Анкета' %}
+{% endblock %}
+
+{% block content %}
+    <style>
+    th{position: sticky; top: 20px; background:#eee;z-index:1000!important}
+    th.joined-field-header{font-weight: normal}
+    </style>
+         {% for foo in form %}
+            {% if   foo.name in form.non_joined_fields  %}
+                {% formfield foo %}
+            {% endif %}
+        {% endfor %}
+
+
+        {% for jfield in form.joined_fields|default_if_none:None %}
+            {% include 'questionnaire/includes/joined_field.html' with jfield=jfield form=form %}
+        {% endfor %}
+
+    {% next_button %}
+
+{% endblock %}

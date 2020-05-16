@@ -10,7 +10,7 @@ class PlayerBot(Bot):
         yield Intro
         yield PayTax,
         if self.player.role() == 'state':
-            yield KDeclare, dict(k_declare=random.uniform(Constants.k_min, Constants.k_max))
+            yield KDeclare, dict(k_declare=random.uniform(Constants.k_min, self.group.real_k))
         else:
             if self.subsession.treatment != 'baseline':
                 yield Incentive, dict(incentive=random.randrange(0, self.player.endowment))

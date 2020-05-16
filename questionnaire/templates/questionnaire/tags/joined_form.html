@@ -1,0 +1,23 @@
+{% load otree %}
+<style>
+    .joined-table .form-check-input {
+        position: relative;
+        margin-top: inherit;
+        margin-left: inherit;
+    }
+</style>
+
+{% if fields_order|default_if_none:False %}
+
+{% else %}
+    {% for jfield in form.joined_fields|default_if_none:None %}
+        {% include 'questionnaire/includes/joined_field.html' with jfield=jfield form=form %}
+    {% endfor %}
+
+    {% for foo in form %}
+        {% if foo.name in form.non_joined_fields %}
+            {% formfield foo %}
+        {% endif %}
+    {% endfor %}
+
+{% endif %}

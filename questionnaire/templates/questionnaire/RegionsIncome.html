@@ -1,0 +1,40 @@
+{% extends "global/Page.html" %}
+{% load i18n otree %}
+
+{% block title %}
+    {% trans 'Анкета' %}
+{% endblock %}
+
+{% block content %}
+
+    {% formfield player.relative_position_in_region %}
+
+    {% next_button %}
+
+{% endblock %}
+{% block scripts %}
+
+
+    <script>
+        $(() => {
+            const form = $('form#form');
+            form.unbind('submit');
+
+            form.submit((event) => {
+                if (!listFilled) {
+                    event.preventDefault();
+                    window.rankVue.$children[0].error= true;
+
+                    var pos = $('#rank_app_title').offset();
+                    console.debug(pos);
+                    $("html, body").animate({scrollTop: pos.top - 30});
+                }
+                ;
+            })
+        })
+
+
+    </script>
+
+
+{% endblock %}

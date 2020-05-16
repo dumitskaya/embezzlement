@@ -31,6 +31,13 @@ SESSION_CONFIGS = [
         app_sequence=['embez'],
         treatment='positive'
     ),
+    dict(
+        name='q',
+        display_name="Questionnaire",
+        num_demo_participants=1,
+        app_sequence=['questionnaire'],
+
+    ),
 ]
 
 # ISO-639 code
