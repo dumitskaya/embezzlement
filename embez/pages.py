@@ -1,6 +1,6 @@
 from otree.api import Currency as c, currency_range
 from ._builtin import WaitPage
-from .generic_pages import Page, IndividualPage, StatePage
+from .generic_pages import Page, OfficialPage, CitizenPage
 from .models import Constants
 
 
@@ -13,12 +13,12 @@ class PayTax(Page):
         self.player.tax_paid = self.player.endowment* Constants.tax_rate
 
 
-class KDeclare(StatePage):
+class KDeclare(OfficialPage):
     form_model = 'group'
     form_fields = ['k_declare']
 
 
-class Incentive(IndividualPage):
+class Incentive(CitizenPage):
     form_model = 'group'
     form_fields = ['incentive']
 
@@ -27,7 +27,7 @@ class Incentive(IndividualPage):
         return self.subsession.treatment != 'baseline'
 
 
-class KBelief(IndividualPage):
+class KBelief(CitizenPage):
     form_model = 'group'
     form_fields = ['k_belief']
 

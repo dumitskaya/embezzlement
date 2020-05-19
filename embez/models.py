@@ -31,6 +31,7 @@ class Constants(BaseConstants):
     checking_prob = .3
     K_CHOICES = list(np.arange(k_min, k_max, k_step))
 
+
 class Subsession(BaseSubsession):
     treatment = models.StringField()
     sign = models.BooleanField(initial=True)
@@ -44,13 +45,17 @@ class Subsession(BaseSubsession):
         for g in self.get_groups():
             r = random.random()
             g.officer_checked = r < Constants.checking_prob
-            g.real_k = random.uniform(Constants.k_min, Constants.k_max)
+            g.real_k = random.choice(Constants.K_CHOICES)
 
 
 class Group(BaseGroup):
     real_k = models.FloatField()
     k_declare = models.FloatField(choices=Constants.K_CHOICES,
                                   widget=widgets.RadioSelectHorizontal)
+
+    def k_declare_choices(self):
+        return [i for i in Constants.K_CHOICES if i <= self.real_k]
+
     incentive = models.IntegerField()
     k_belief = models.FloatField()
     taxes_paid = models.CurrencyField()
@@ -81,7 +86,7 @@ class Group(BaseGroup):
 
         officer.payoff += self.embezzled_amount
 
-        officer.payoff += self.state_checked * self.fine_pool * (self.true_k == self.subsession.sign)
+        officer.payoff += self.officer_checked * self.fine_pool * (self.true_k == self.subsession.sign)
 
 
 class Player(BasePlayer):

@@ -10,7 +10,7 @@ class Page(oTreePage):
 
 class OfficialPage(Page):
     def is_displayed(self):
-        return self.player.role() == 'official' and self.extra_is_displayed()
+        return self.player.role() == 'officer' and self.extra_is_displayed()
 
 
 class CitizenPage(Page):
