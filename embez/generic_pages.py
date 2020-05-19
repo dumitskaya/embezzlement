@@ -8,11 +8,11 @@ class Page(oTreePage):
         return True
 
 
-class StatePage(Page):
+class OfficialPage(Page):
     def is_displayed(self):
-        return self.player.role() == 'state' and self.extra_is_displayed()
+        return self.player.role() == 'official' and self.extra_is_displayed()
 
 
-class IndividualPage(Page):
+class CitizenPage(Page):
     def is_displayed(self):
-        return self.player.role() == 'individual' and self.extra_is_displayed()
+        return self.player.role() == 'citizen' and self.extra_is_displayed()
