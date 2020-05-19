@@ -1,0 +1,23 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Results
+{% endblock %}
+
+{% block content %}
+
+    <p>The game is finished</p>
+    <p>{% if player.role == 'Citizen' %}
+
+        <p>For guessing the value of distribution coefficient you get:</p>
+        <p>{{group.additional_payoff}}</p>
+
+        {% endif %}
+
+    <p>Your endowment is {{player.budget}}</p>
+
+
+    {% next_button %}
+
+{% endblock %}

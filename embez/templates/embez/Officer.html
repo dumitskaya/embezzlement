@@ -1,0 +1,15 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    You start as
+{% endblock %}
+
+{% block content %}
+
+    <p>Your endowment is {{player.budget}}</p>
+    <p> True value of the coefficient is {{player.k_real}}</p>
+    {% formfields %}
+    {% next_button %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Спасибо за участие!
+{% endblock %}
+
+{% block content %}
+
+    <h2 style="text-align:center;">Ваш код</h2>
+<hr>
+    <h3 style="text-align:center;">{{participant.code}}</h3>
+<hr>
+    <p style="text-align:center;"> Для того, чтобы задание считалось выполненным,
+        пожалуйста, скопируйте его и вставьте на страницу задания в Толоке.
+    </p>
+
+
+
+    {% next_button %}
+{% endblock %}
