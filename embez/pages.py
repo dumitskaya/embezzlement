@@ -1,104 +1,51 @@
 from otree.api import Currency as c, currency_range
-from ._builtin import Page, WaitPage
+from ._builtin import WaitPage
+from .generic_pages import Page, IndividualPage, StatePage
 from .models import Constants
 
 
-class Start(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-
-class SQ1(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-
-class SQ2(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-
-class SQ3(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-
-class SQ4(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-
-class SQ5(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-
-class Roles(Page):
+class Intro(Page):
     pass
 
 
-class Officer(Page):
-    def is_displayed(self):
-        return self.player.id_in_group == 1
-
-    form_model = 'player'
-    form_fields = ['set_k']
+class PayTax(Page):
+    def before_next_page(self):
+        self.player.tax_paid = self.player.endowment* Constants.tax_rate
 
 
-class Wait(WaitPage):
-    after_all_players_arrive = 'do_all'
+class KDeclare(StatePage):
+    form_model = 'group'
+    form_fields = ['k_declare']
+
+
+class Incentive(IndividualPage):
+    form_model = 'group'
+    form_fields = ['incentive']
+
+    def extra_is_displayed(self):
+        print("TREATMENT ", self.subsession.treatment)
+        return self.subsession.treatment != 'baseline'
+
+
+class KBelief(IndividualPage):
+    form_model = 'group'
+    form_fields = ['k_belief']
+
+
+class ResultsWaitPage(WaitPage):
+    after_all_players_arrive = 'set_payoffs'
 
 
 class Results(Page):
-    form_model = 'player'
-    form_fields = ['guess']
+    pass
 
 
-class Wait2(WaitPage):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds
-
-    wait_for_all_groups = True
-
-
-class Final(Page):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds
-
-
-class Survey(Page):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds
-
-    form_model = 'player'
-    form_fields = ['gender', 'education', 'age', 'marital_status', 'religion', 'relative_position_in_region',
-                   'similar_care_society', 'similar_care_nearby', 'justified_subsidies', 'justified_freeride',
-                   'justified_theft', 'justified_tax_evasion', 'justified_corruption', 'justified_violence',
-                   'fairness_general', 'positive_reciprocity', 'negative_reciprocity', 'abuse_you', 'honest_Russia',
-                   'party_Russia', 'income']
-
-
-class OfficerQ(Page):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds and self.player.id_in_group == 1
-
-    form_model = 'player'
-    form_fields = ['q1', 'q2']
-
-
-class CitizenQ(Page):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds and self.player.id_in_group != 1
-
-    form_model = 'player'
-    form_fields = ['q3', 'q4']
-
-
-class Code(Page):
-    def is_displayed(self):
-        return self.round_number == Constants.num_rounds
-
-
-page_sequence = [SQ1, SQ2, SQ3, SQ4, SQ5,
-                 Roles, Officer, Wait, Results, Wait2, Final,
-                 OfficerQ, CitizenQ, Survey, Code]
+page_sequence = [
+    Intro,
+    PayTax,
+    KDeclare,
+    Incentive,
+    KBelief,
+    ResultsWaitPage,
+    Results
+]
