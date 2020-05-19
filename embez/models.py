@@ -9,6 +9,7 @@ from otree.api import (
     currency_range,
 )
 import random
+import numpy as np
 
 author = 'Your name here'
 
@@ -23,11 +24,12 @@ class Constants(BaseConstants):
     num_rounds = 1
     k_min = 1
     k_max = 3
+    k_step = 0.25
     individual_endowment = 10
     tax_rate = .5
     coef = .2
     checking_prob = .3
-
+    K_CHOICES = list(np.arange(k_min, k_max, k_step))
 
 class Subsession(BaseSubsession):
     treatment = models.StringField()
@@ -41,13 +43,14 @@ class Subsession(BaseSubsession):
             p.endowment = Constants.individual_endowment
         for g in self.get_groups():
             r = random.random()
-            g.state_checked = r < Constants.checking_prob
+            g.officer_checked = r < Constants.checking_prob
             g.real_k = random.uniform(Constants.k_min, Constants.k_max)
 
 
 class Group(BaseGroup):
     real_k = models.FloatField()
-    k_declare = models.FloatField()
+    k_declare = models.FloatField(choices=Constants.K_CHOICES,
+                                  widget=widgets.RadioSelectHorizontal)
     incentive = models.IntegerField()
     k_belief = models.FloatField()
     taxes_paid = models.CurrencyField()
@@ -56,12 +59,12 @@ class Group(BaseGroup):
     individual_share = models.CurrencyField()
     embezzled_amount = models.CurrencyField()
     fine_pool = models.IntegerField(initial=0)
-    state_checked = models.BooleanField()
+    officer_checked = models.BooleanField()
     true_k = models.BooleanField()
 
     def set_payoffs(self):
-        state = self.get_player_by_role('state')
-        individual = self.get_player_by_role('individual')
+        officer = self.get_player_by_role('officer')
+        citizen = self.get_player_by_role('citizen')
         self.true_k = self.real_k == self.k_declare
         self.taxes_paid = sum([p.tax_paid for p in self.get_players()])
         self.taxes_multiplied = self.taxes_paid * self.real_k;
@@ -73,12 +76,12 @@ class Group(BaseGroup):
             p.payoff = p.endowment - p.tax_paid + self.individual_share
 
         if self.subsession.treatment != 'baseline':
-            individual.payoff -= self.incentive
+            citizen.payoff -= self.incentive
             self.fine_pool += self.incentive
 
-        state.payoff += self.embezzled_amount
+        officer.payoff += self.embezzled_amount
 
-        state.payoff += self.state_checked * self.fine_pool * (self.true_k == self.subsession.sign)
+        officer.payoff += self.state_checked * self.fine_pool * (self.true_k == self.subsession.sign)
 
 
 class Player(BasePlayer):
