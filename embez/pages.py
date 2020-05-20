@@ -57,6 +57,7 @@ class Results(Page):
 page_sequence = [
     Intro,
     Instructions,
+    Examples,
     CQs,
     BeforeTheGame,
     PayTax,

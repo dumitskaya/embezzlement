@@ -9,6 +9,7 @@ class PlayerBot(Bot):
     def play_round(self):
         yield Intro,
         yield Instructions,
+        yield Examples,
         yield CQs,
         yield BeforeTheGame,
         yield PayTax,
