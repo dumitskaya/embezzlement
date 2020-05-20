@@ -1,6 +1,6 @@
 from otree.api import Currency as c, currency_range
 from ._builtin import WaitPage
-from .generic_pages import Page, OfficialPage, CitizenPage
+from .generic_pages import Page, OfficialPage, CitizenPage, InstructionPage
 from .models import Constants
 
 
@@ -8,9 +8,19 @@ class Intro(Page):
     pass
 
 
-class PayTax(Page):
+class Instructions(InstructionPage):
+    pass
+
+
+class CQs(InstructionPage):
+    pass
+class BeforeTheGame(InstructionPage):
+    pass
+
+
+class PayTax(InstructionPage):
     def before_next_page(self):
-        self.player.tax_paid = self.player.endowment* Constants.tax_rate
+        self.player.tax_paid = self.player.endowment * Constants.tax_rate
 
 
 class KDeclare(OfficialPage):
@@ -42,6 +52,9 @@ class Results(Page):
 
 page_sequence = [
     Intro,
+    Instructions,
+    CQs,
+    BeforeTheGame,
     PayTax,
     KDeclare,
     Incentive,

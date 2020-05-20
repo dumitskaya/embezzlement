@@ -25,11 +25,12 @@ class Constants(BaseConstants):
     k_min = 1
     k_max = 3
     k_step = 0.25
-    individual_endowment = 10
+    endowment = 10
     tax_rate = .5
     coef = .2
     checking_prob = .3
     K_CHOICES = list(np.arange(k_min, k_max, k_step))
+    fine_coef = 1.5
 
 
 class Subsession(BaseSubsession):
@@ -40,8 +41,11 @@ class Subsession(BaseSubsession):
         self.treatment = self.session.config.get('treatment')
         if self.treatment == 'negative':
             self.sign = False
+        #  we give to each player some money at the beginning
         for p in self.get_players():
-            p.endowment = Constants.individual_endowment
+            p.endowment = Constants.endowment
+        # in each period in each group an official is checked with certain probability.
+        # we also generate a certain K based on which official can declare his own K
         for g in self.get_groups():
             r = random.random()
             g.officer_checked = r < Constants.checking_prob
@@ -94,6 +98,7 @@ class Player(BasePlayer):
     tax_paid = models.CurrencyField()
 
     def role(self):
+        """defines that the first player in group will be a bureaucrat"""
         if self.id_in_group == 1:
             return 'officer'
         return 'citizen'
