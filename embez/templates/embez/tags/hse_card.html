@@ -1,0 +1,19 @@
+<div class="card my-3">
+    {% if header %}
+        <div class="card-header">
+            {{ header }}
+        </div>
+    {% endif %}
+
+    <div class="card-body">
+        {% if title %}
+            <h5 class="card-title">
+                {{ title }}
+            </h5>
+        {% endif %}
+        <div class="card-text">
+            {{ content }}
+        </div>
+
+    </div>
+</div>

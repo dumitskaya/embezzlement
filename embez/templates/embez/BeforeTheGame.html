@@ -1,11 +1,28 @@
 {% extends "global/Page.html" %}
-{% load otree static %}
+{% load otree  hse %}
 
 {% block title %}
     The study is about to start
 {% endblock %}
 
 {% block content %}
-    Now the study will start. Please click 'Proceed with the study' button below
-    {% next_button %}
+    <table class="table table-hover table-striped">
+        <thead>
+        <th>Question</th>
+        <th>Correct</th>
+        </thead>
+        {% for foo in results %}
+            <tr>
+                <td>Question {{ forloop.counter }}</td>
+                <td>{{ foo.correct }}</td>
+            </tr>
+
+        {% endfor %}
+
+    </table>
+    {% card %}
+        Now the study will start. Please click 'Proceed with the study' button below
+    {% endcard %}
+
+    {% hse_button label='Proceed with the study' html_class='btn-danger' %}
 {% endblock %}

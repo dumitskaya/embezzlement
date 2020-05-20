@@ -17,9 +17,15 @@ class Examples(InstructionPage):
 
 
 class CQs(InstructionPage):
-    pass
+    form_model = 'player'
+    form_fields = ["cq1_1", "cq1_2", "cq2_1", "cq2_2", "cq3_1", "cq3_2", ]
+
+
 class BeforeTheGame(InstructionPage):
-    pass
+    def vars_for_template(self):
+        qs = Constants.correct_answers
+        results = [getattr(self.player, k) == v for k, v in qs.items()]
+        return results
 
 
 class PayTax(InstructionPage):
@@ -60,10 +66,10 @@ page_sequence = [
     Examples,
     CQs,
     BeforeTheGame,
-    PayTax,
-    KDeclare,
-    Incentive,
-    KBelief,
-    ResultsWaitPage,
-    Results
+    # PayTax,
+    # KDeclare,
+    # Incentive,
+    # KBelief,
+    # ResultsWaitPage,
+    # Results
 ]

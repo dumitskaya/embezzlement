@@ -32,6 +32,16 @@ class Constants(BaseConstants):
     K_CHOICES = list(np.arange(k_min, k_max, k_step))
     fine_coef = 1.5
 
+    correct_answers = dict(
+        cq1_1=30,
+        cq1_2=30,
+        cq2_1=21,
+        cq2_2=31,
+        cq3_1=9,
+        cq3_2=10,
+
+    )
+
 
 class Subsession(BaseSubsession):
     treatment = models.StringField()
@@ -96,6 +106,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     endowment = models.CurrencyField()
     tax_paid = models.CurrencyField()
+    cq1_1, cq1_2, cq2_1, cq2_2, cq3_1, cq3_2 = [models.IntegerField() for _ in range(6)]
 
     def role(self):
         """defines that the first player in group will be a bureaucrat"""
