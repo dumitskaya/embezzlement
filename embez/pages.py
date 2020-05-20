@@ -12,6 +12,10 @@ class Instructions(InstructionPage):
     pass
 
 
+class Examples(InstructionPage):
+    pass
+
+
 class CQs(InstructionPage):
     pass
 class BeforeTheGame(InstructionPage):
