@@ -33,12 +33,12 @@ class Constants(BaseConstants):
     fine_coef = 1.5
 
     correct_answers = dict(
-        cq1_1=30,
+        cq1_1=10,
         cq1_2=30,
-        cq2_1=21,
-        cq2_2=31,
-        cq3_1=9,
-        cq3_2=10,
+        cq2_1=15,
+        cq2_2=10,
+        cq3_1=20,
+        cq3_2=20,
 
     )
 
