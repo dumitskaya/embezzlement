@@ -39,12 +39,6 @@ class KDeclare(OfficialPage):
     form_fields = ['k_declare']
 
 
-class Incentive(CitizenPage):
-    form_model = 'group'
-    form_fields = ['incentive']
-
-    def extra_is_displayed(self):
-        return self.subsession.treatment != 'baseline'
 
 
 class KBelief(CitizenPage):
@@ -68,8 +62,6 @@ page_sequence = [
     BeforeTheGame,
     PayTax,
     KDeclare,
-    Incentive,
-
     ResultsWaitPage,
     Results,
     KBelief,

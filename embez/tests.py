@@ -16,9 +16,7 @@ class PlayerBot(Bot):
         if self.player.role() == 'officer':
             available_choices = self.group.k_declare_choices()
             yield KDeclare, dict(k_declare=random.choice(available_choices))
-        else:
-            if self.subsession.treatment != 'baseline':
-                yield Incentive, dict(incentive=random.randrange(0, self.player.endowment))
+
 
         yield Results
         if self.player.role() == 'citizen':
