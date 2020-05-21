@@ -4,6 +4,10 @@ from .generic_pages import Page, OfficialPage, CitizenPage, InstructionPage
 from .models import Constants
 
 
+class FirstWP(WaitPage):
+    group_by_arrival_time = True
+
+
 class Intro(Page):
     pass
 
@@ -39,8 +43,6 @@ class KDeclare(OfficialPage):
     form_fields = ['k_declare']
 
 
-
-
 class KBelief(CitizenPage):
     form_model = 'group'
     form_fields = ['k_belief']
@@ -55,6 +57,7 @@ class Results(Page):
 
 
 page_sequence = [
+    FirstWP,
     Intro,
     Instructions,
     Examples,
