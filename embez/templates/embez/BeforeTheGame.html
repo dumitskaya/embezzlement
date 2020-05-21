@@ -6,9 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    {% card title='Ваша роль' style='info' %}
-        Ваша роль: <span class="font-weight-bold">{{ player.role }}</span>
-    {% endcard %}
+    {% include 'embez/includes/role_block.html' %}
     <table class="table table-hover table-striped">
         <thead>
         <th>Question</th>

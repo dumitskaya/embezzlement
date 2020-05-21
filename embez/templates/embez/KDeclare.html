@@ -6,9 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    {% card title='Ваша роль' style='info' %}
-        Ваша роль: <span class="font-weight-bold">{{ player.role }}</span>
-    {% endcard %}
+   {% include 'embez/includes/role_block.html' %}
     {% card style='danger'%}
         THE REAL K IS <span class="font-weight-bold">{{ group.real_k }}</span>
     {% endcard %}

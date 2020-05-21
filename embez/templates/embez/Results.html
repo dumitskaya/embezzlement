@@ -9,12 +9,24 @@
     <table class="table">
         <tr>
             <td>Ваша роль</td>
-            <td>{{ player.role }}</td>
+            <td>{{ player.role_desc }}</td>
+        </tr>
+        <tr>
+            <td>Изначальная сумма</td>
+            <td>{{ player.endowment }}</td>
+        </tr>
+        <tr>
+            <td>Вы заплатили налогов</td>
+            <td>{{ player.tax_paid }}</td>
         </tr>
         {% if player.role == 'officer' %}
             <tr>
                 <td>Вы объявили</td>
                 <td>{{ group.k_declare }}</td>
+            </tr>
+            <tr>
+                <td>Вы получили из общей суммы всех уплаченых налогов</td>
+                <td>{{ group.individual_share }}</td>
             </tr>
             <tr>
                 <td>РеальныйK</td>
@@ -25,9 +37,32 @@
                 <td>Ваш дополонительный доход как чиновника</td>
                 <td>{{ group.embezzled_amount }}</td>
             </tr>
-                 {%  else %}
+                        <tr>
+                <td>Заявленный вами коэффициент был проверен:</td>
+                <td>{{ group.officer_checked|yesno:"Да, Нет" }}</td>
+            </tr>
+            {% if group.officer_checked %}
+            <tr>
+                <td>Ваш платеж был уменьшен на сумму:</td>
+                <td>{{ group.officer_fine }}</td>
+            </tr>
+            {% endif %}
 
+        {% else %}
+            <tr>
+                <td>Чиновник объявил коэффициент равный</td>
+                <td>{{ group.k_declare }}</td>
+            </tr>
+            <tr>
+                <td>Вы получили из общей суммы всех уплаченых налогов</td>
+                <td>{{ group.individual_share }}</td>
+            </tr>
         {% endif %}
+        <tr>
+            <td>Ваш финальный бонус</td>
+            <td>{{ player.payoff }}</td>
+        </tr>
+
     </table>
     {% next_button %}
 {% endblock %}

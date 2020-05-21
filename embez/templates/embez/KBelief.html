@@ -6,10 +6,11 @@
 {% endblock %}
 
 {% block content %}
+    {% include 'embez/includes/role_block.html' %}
     {% card style='warning' title='Declared K'%}
         K declared by official was <span class="font-weight-bold">{{ group.k_declare }}</span>
     {% endcard %}
-    {% card title='Some info about beliefs' style='info' %}
+    {% card title='Some info about beliefs' %}
         HERE GOES SOME REMINDER ABOUT BELIEF ELICITATION
     {% endcard %}
     {% formfields %}

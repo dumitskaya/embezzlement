@@ -10,7 +10,7 @@ class PlayerBot(Bot):
         yield Intro,
         yield Instructions,
         yield Examples,
-        yield CQs,
+        yield CQs, Constants.correct_answers
         yield BeforeTheGame,
         yield PayTax,
         if self.player.role() == 'officer':
@@ -19,5 +19,7 @@ class PlayerBot(Bot):
         else:
             if self.subsession.treatment != 'baseline':
                 yield Incentive, dict(incentive=random.randrange(0, self.player.endowment))
-            yield KBelief, dict(k_belief=random.choice(Constants.K_CHOICES))
+
         yield Results
+        if self.player.role() == 'citizen':
+            yield KBelief, dict(k_belief=random.choice(Constants.K_CHOICES))

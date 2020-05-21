@@ -29,7 +29,7 @@ class Constants(BaseConstants):
     tax_rate = .5
     coef = .2
     checking_prob = .3
-    K_CHOICES = list(np.arange(k_min, k_max+0.01, k_step))
+    K_CHOICES = list(np.arange(k_min, k_max + 0.01, k_step))
     fine_coef = 1.5
 
     correct_answers = dict(
@@ -64,8 +64,8 @@ class Subsession(BaseSubsession):
 class Group(BaseGroup):
     real_k = models.FloatField()
     k_declare = models.FloatField(
-                                  widget=widgets.RadioSelectHorizontal,
-                                  label='Choose what K you would like to declare to a Citizen')
+        widget=widgets.RadioSelectHorizontal,
+        label='Choose what K you would like to declare to a Citizen')
 
     def k_declare_choices(self):
         return [i for i in Constants.K_CHOICES if i <= self.real_k]
@@ -73,36 +73,48 @@ class Group(BaseGroup):
     incentive = models.IntegerField()
     k_belief = models.FloatField(label='What was the true K in this period in your opinion?',
                                  choices=Constants.K_CHOICES,
-                                 widget=widgets.RadioSelectHorizontal,)
+                                 widget=widgets.RadioSelectHorizontal, )
     taxes_paid = models.CurrencyField()
     taxes_multiplied = models.CurrencyField()
     taxes_paid_back = models.CurrencyField()
     individual_share = models.CurrencyField()
-    embezzled_amount = models.CurrencyField()
-    fine_pool = models.IntegerField(initial=0)
+    embezzled_amount = models.CurrencyField(initial=0)
     officer_checked = models.BooleanField()
     true_k = models.BooleanField()
+    officer_fine = models.CurrencyField()
+    @property
+    def officer(self):
+        return self.get_player_by_role('officer')
+
+    def apply_sanctions(self):
+        """Applying sanctions on officer if he is checked.
+        The officer payoff is diminished by the embezzled amount IF he is checked.
+        """
+        self.officer_fine = self.embezzled_amount * Constants.fine_coef
+        self.officer.payoff -= self.officer_checked * self.true_k *   self.officer_fine
 
     def set_payoffs(self):
-        officer = self.get_player_by_role('officer')
+        # we get two user (officer and citizen)
+        officer = self.officer
         citizen = self.get_player_by_role('citizen')
+        # we check if officer lied
         self.true_k = self.real_k == self.k_declare
+        # collect all paid taxes
         self.taxes_paid = sum([p.tax_paid for p in self.get_players()])
         self.taxes_multiplied = self.taxes_paid * self.real_k;
         self.taxes_paid_back = self.taxes_paid * self.k_declare;
+        # calculate how much everone one get based on amount declared by officer
         self.individual_share = self.taxes_paid_back / Constants.players_per_group
-
+        # calculated an embezzled amount
         self.embezzled_amount = self.taxes_multiplied - self.taxes_paid_back
         for p in self.get_players():
             p.payoff = p.endowment - p.tax_paid + self.individual_share
+        # this is for the treatment
 
-        if self.subsession.treatment != 'baseline':
-            citizen.payoff -= self.incentive
-            self.fine_pool += self.incentive
 
         officer.payoff += self.embezzled_amount
-
-        officer.payoff += self.officer_checked * self.fine_pool * (self.true_k == self.subsession.sign)
+        # apply punishment on the officer (if any):
+        self.apply_sanctions()
 
 
 class Player(BasePlayer):
@@ -114,6 +126,12 @@ class Player(BasePlayer):
     cq2_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
     cq3_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
     cq3_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
+
+    def role_desc(self):
+        """return Russian description of role - for showing at the pages"""
+        descs = dict(officer='Чиновник',
+                     citizen='Гражданин')
+        return descs.get(self.role())
 
     def role(self):
         """defines that the first player in group will be a bureaucrat"""

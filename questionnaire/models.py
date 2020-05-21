@@ -137,9 +137,6 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    def set_payoff(self):
-        _("""Calculate payoff, which is zero for the survey""")
-        self.payoff = 0
 
     gender = models.BooleanField(initial=None,
                                  choices=Constants.GENDER_CHOICES,

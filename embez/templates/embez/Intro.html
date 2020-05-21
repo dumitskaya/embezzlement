@@ -6,7 +6,30 @@
 {% endblock %}
 
 {% block content %}
-{% formfields %}
+
+    <div class="row my-3">
+        <div class="col">
+
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    In this experiment you will make several decisions and you will interact with other Toloka
+                    participants.
+                </li>
+
+                <li class="list-group-item">
+                    Your fee for participation (equal to X USD) will be paid to you immediately after you provide us
+                    with the correct code in Toloka interface when the experiment is finished.
+                </li>
+                <li class="list-group-item">
+                    The experiment consists of two parts. In the  first part you can earn extra money which will be
+                    paid to you as a <span class="font-weight-bold"> bonus</span> in Toloka.
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
     {% next_button %}
 
 {% endblock %}
