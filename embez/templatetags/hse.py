@@ -16,30 +16,41 @@ def do_card(parser, token, ):
     bits = token.split_contents()
     tagname = bits.pop(0)
     arg_dict = token_kwargs(bits, parser)
-    header = arg_dict.get('header')
-    title = arg_dict.get('title')
 
-    return CardNode(nodelist, header, title)
+    return CardNode(nodelist, **arg_dict)
 
 
 class CardNode(template.Node):
-    def __init__(self, nodelist, header, title):
+    type_correspondence = dict(primary='text-white bg-primary',
+                               secondary='text-white bg-secondary',
+                               success='text-white bg-success',
+                               danger='text-white bg-danger',
+                               warning='text-white bg-warning ',
+                               info='text-white bg-info ',
+                               light='bg-light',
+                               dark='bg-dark'
+                               )
+
+    def __init__(self, nodelist, **kwargs):
         self.nodelist = nodelist
-        self.header = header
-        self.title = title
+        self.kwargs = kwargs
+
+    def build_kwargs(self, context):
+        registered_kwargs = dict(style=None, header=None, title=None)
+        for k, v in registered_kwargs.items():
+            current_k = self.kwargs.get(k)
+            if current_k:
+                registered_kwargs[k] = current_k.resolve(context)
+        style = registered_kwargs['style']
+        if self.type_correspondence.get(style):
+            registered_kwargs['style'] = self.type_correspondence.get(style)
+
+        return registered_kwargs
 
     def render(self, context):
         output = self.nodelist.render(context)
-        if self.header:
-            header = self.header.resolve(context)
-        else:
-            header = None
-        if self.title:
-            title = self.title.resolve(context)
-        else:
-            title = None
-        rendered = render_to_string('embez/tags/hse_card.html', {'content': output, "header": header,
-                                                                 "title": title})
+        kwargs = self.build_kwargs(context)
+        rendered = render_to_string('embez/tags/hse_card.html', {'content': output, **kwargs})
         return rendered
 
 

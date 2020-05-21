@@ -1,12 +1,14 @@
 {% extends "global/Page.html" %}
-{% load otree static %}
+{% load otree hse %}
 
 {% block title %}
-    Page title
+    Pay tax
 {% endblock %}
 
 {% block content %}
-{% formfields %}
-    {% next_button %}
+    {% card header='Tax info card' %}
+        HERE IS SOMETHING ABOUT PAYING TAXES FROM ENDOWMENT BY PRESSING BUTTON BELOW
+    {% endcard %}
+    {% hse_button label='Pay tax' html_class='btn-danger'%}
 
 {% endblock %}

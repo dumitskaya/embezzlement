@@ -14,7 +14,7 @@
         {% for foo in results %}
             <tr>
                 <td>Question {{ forloop.counter }}</td>
-                <td>{{ foo.correct }}</td>
+                <td>{{ foo|yesno:'Yes,No' }}</td>
             </tr>
 
         {% endfor %}

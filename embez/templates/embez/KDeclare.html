@@ -1,11 +1,18 @@
 {% extends "global/Page.html" %}
-{% load otree static %}
+{% load otree hse %}
 
 {% block title %}
-    Page title
+    Officer - declaring K
 {% endblock %}
 
 {% block content %}
+    {% card style='danger'%}
+        THE REAL K IS <span class="font-weight-bold">{{ group.real_k }}</span>
+    {% endcard %}
+    {% card  header='Officer decision about lying' %}
+        HERE GOES SOMETHING ABOUT DECLARING R
+    {% endcard %}
+
 {% formfields %}
     {% next_button %}
 

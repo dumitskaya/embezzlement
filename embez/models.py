@@ -29,7 +29,7 @@ class Constants(BaseConstants):
     tax_rate = .5
     coef = .2
     checking_prob = .3
-    K_CHOICES = list(np.arange(k_min, k_max, k_step))
+    K_CHOICES = list(np.arange(k_min, k_max+0.01, k_step))
     fine_coef = 1.5
 
     correct_answers = dict(
@@ -64,14 +64,17 @@ class Subsession(BaseSubsession):
 
 class Group(BaseGroup):
     real_k = models.FloatField()
-    k_declare = models.FloatField(choices=Constants.K_CHOICES,
-                                  widget=widgets.RadioSelectHorizontal)
+    k_declare = models.FloatField(
+                                  widget=widgets.RadioSelectHorizontal,
+                                  label='Choose what K you would like to declare to a Citizen')
 
     def k_declare_choices(self):
         return [i for i in Constants.K_CHOICES if i <= self.real_k]
 
     incentive = models.IntegerField()
-    k_belief = models.FloatField()
+    k_belief = models.FloatField(label='What was the true K in this period in your opinion?',
+                                 choices=Constants.K_CHOICES,
+                                 widget=widgets.RadioSelectHorizontal,)
     taxes_paid = models.CurrencyField()
     taxes_multiplied = models.CurrencyField()
     taxes_paid_back = models.CurrencyField()
@@ -106,7 +109,12 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     endowment = models.CurrencyField()
     tax_paid = models.CurrencyField()
-    cq1_1, cq1_2, cq2_1, cq2_2, cq3_1, cq3_2 = [models.IntegerField() for _ in range(6)]
+    cq1_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
+    cq1_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
+    cq2_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
+    cq2_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
+    cq3_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
+    cq3_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
 
     def role(self):
         """defines that the first player in group will be a bureaucrat"""

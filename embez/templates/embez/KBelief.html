@@ -1,12 +1,18 @@
 {% extends "global/Page.html" %}
-{% load otree static %}
+{% load otree hse %}
 
 {% block title %}
-    Page title
+    Citizen declares beliefs
 {% endblock %}
 
 {% block content %}
-{% formfields %}
+    {% card style='warning' title='Declared K'%}
+        K declared by official was <span class="font-weight-bold">{{ group.k_declare }}</span>
+    {% endcard %}
+    {% card title='Some info about beliefs' style='info' %}
+        HERE GOES SOME REMINDER ABOUT BELIEF ELICITATION
+    {% endcard %}
+    {% formfields %}
     {% next_button %}
 
 {% endblock %}

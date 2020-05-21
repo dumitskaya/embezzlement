@@ -25,7 +25,8 @@ class BeforeTheGame(InstructionPage):
     def vars_for_template(self):
         qs = Constants.correct_answers
         results = [getattr(self.player, k) == v for k, v in qs.items()]
-        return results
+
+        return dict(results=results)
 
 
 class PayTax(InstructionPage):
@@ -43,7 +44,6 @@ class Incentive(CitizenPage):
     form_fields = ['incentive']
 
     def extra_is_displayed(self):
-        print("TREATMENT ", self.subsession.treatment)
         return self.subsession.treatment != 'baseline'
 
 
@@ -66,10 +66,11 @@ page_sequence = [
     Examples,
     CQs,
     BeforeTheGame,
-    # PayTax,
-    # KDeclare,
-    # Incentive,
-    # KBelief,
-    # ResultsWaitPage,
-    # Results
+    PayTax,
+    KDeclare,
+    Incentive,
+
+    ResultsWaitPage,
+    Results,
+    KBelief,
 ]
