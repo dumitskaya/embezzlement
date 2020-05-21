@@ -93,11 +93,9 @@ class StatedPreferences1(Page):
     template_name = 'questionnaire/StatedPreferences.html'
     form_model = 'player'
     form_fields = [
-        'moreagreement',
-        'similar_trust',
-        'trustful',
+
         'ready_help',
-        'dreadyhelp',
+
 
     ]
 

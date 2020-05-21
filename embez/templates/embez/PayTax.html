@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block content %}
+    {% card title='Ваша роль' style='info' %}
+        Ваша роль: <span class="font-weight-bold">{{ player.role }}</span>
+    {% endcard %}
     {% card header='Tax info card' %}
         HERE IS SOMETHING ABOUT PAYING TAXES FROM ENDOWMENT BY PRESSING BUTTON BELOW
     {% endcard %}

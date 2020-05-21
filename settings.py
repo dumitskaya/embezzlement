@@ -17,25 +17,19 @@ SESSION_CONFIGS = [
         app_sequence=['embez'],
         treatment='baseline'
     ),
-    dict(
-        name='negative',
-        display_name="Embezzlement game - negative incentive",
-        num_demo_participants=2,
-        app_sequence=['embez'],
-        treatment='negative'
-    ),
-    dict(
-        name='positive',
-        display_name="Embezzlement game - positive incentive",
-        num_demo_participants=2,
-        app_sequence=['embez'],
-        treatment='positive'
-    ),
+
     dict(
         name='q',
-        display_name="Questionnaire",
+        display_name="Questionnaire + Toloka code",
         num_demo_participants=1,
-        app_sequence=['questionnaire'],
+        app_sequence=['questionnaire', 'last'],
+
+    ),
+    dict(
+        name='full',
+        display_name="Full version",
+        num_demo_participants=2,
+        app_sequence=['embez', 'questionnaire', 'last'],
 
     ),
 ]

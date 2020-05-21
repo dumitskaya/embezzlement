@@ -6,7 +6,29 @@
 {% endblock %}
 
 {% block content %}
-    RESULTS GO HERE
+    <table class="table">
+        <tr>
+            <td>Ваша роль</td>
+            <td>{{ player.role }}</td>
+        </tr>
+        {% if player.role == 'officer' %}
+            <tr>
+                <td>Вы объявили</td>
+                <td>{{ group.k_declare }}</td>
+            </tr>
+            <tr>
+                <td>РеальныйK</td>
+                <td>{{ group.real_k }}</td>
+            </tr>
+
+            <tr>
+                <td>Ваш дополонительный доход как чиновника</td>
+                <td>{{ group.embezzled_amount }}</td>
+            </tr>
+                 {%  else %}
+
+        {% endif %}
+    </table>
     {% next_button %}
 {% endblock %}
 

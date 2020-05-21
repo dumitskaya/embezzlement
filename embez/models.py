@@ -39,7 +39,6 @@ class Constants(BaseConstants):
         cq2_2=31,
         cq3_1=9,
         cq3_2=10,
-
     )
 
 
