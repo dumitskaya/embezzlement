@@ -53,12 +53,6 @@ class Subsession(BaseSubsession):
         #  we give to each player some money at the beginning
         for p in self.get_players():
             p.endowment = Constants.endowment
-        # in each period in each group an official is checked with certain probability.
-        # we also generate a certain K based on which official can declare his own K
-        for g in self.get_groups():
-            r = random.random()
-            g.officer_checked = r < Constants.checking_prob
-            g.real_k = random.choice(Constants.K_CHOICES)
 
 
 class Group(BaseGroup):
@@ -82,16 +76,25 @@ class Group(BaseGroup):
     officer_checked = models.BooleanField()
     true_k = models.BooleanField()
     officer_fine = models.CurrencyField()
+
     @property
     def officer(self):
         return self.get_player_by_role('officer')
+
+    def after_group_is_formed(self):
+        # in each period in each group an official is checked with certain probability.
+        # we also generate a certain K based on which official can declare his own K
+        r = random.random()
+        g = self
+        g.officer_checked = r < Constants.checking_prob
+        g.real_k = random.choice(Constants.K_CHOICES)
 
     def apply_sanctions(self):
         """Applying sanctions on officer if he is checked.
         The officer payoff is diminished by the embezzled amount IF he is checked.
         """
         self.officer_fine = self.embezzled_amount * Constants.fine_coef
-        self.officer.payoff -= self.officer_checked * self.true_k *   self.officer_fine
+        self.officer.payoff -= self.officer_checked * self.true_k * self.officer_fine
 
     def set_payoffs(self):
         # we get two user (officer and citizen)
@@ -110,7 +113,6 @@ class Group(BaseGroup):
         for p in self.get_players():
             p.payoff = p.endowment - p.tax_paid + self.individual_share
         # this is for the treatment
-
 
         officer.payoff += self.embezzled_amount
         # apply punishment on the officer (if any):

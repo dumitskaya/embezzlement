@@ -6,6 +6,7 @@ from .models import Constants
 
 class FirstWP(WaitPage):
     group_by_arrival_time = True
+    after_all_players_arrive = 'after_group_is_formed'
 
 
 class Intro(Page):
