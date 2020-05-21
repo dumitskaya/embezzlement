@@ -864,7 +864,7 @@ class Player(BasePlayer):
 
     positive_reciprocity = models.PositiveIntegerField(
         label=(""),
-        choices=Constants.FEATURE_CHOICES,
+        choices=Constants.FEATURE_CHOICES_1_10,
         widget=LikertWidget(
             quote=_(
                 "\"Когда кто-либо мне помогает я стараюсь ответить тем же.\"  Справедливо ли это суждение в отношении Вас?"),
@@ -879,7 +879,7 @@ class Player(BasePlayer):
 
     negative_reciprocity = models.PositiveIntegerField(
         label='',
-        choices=Constants.FEATURE_CHOICES,
+        choices=Constants.FEATURE_CHOICES_1_10,
         widget=LikertWidget(
             quote=_(
                 """"Если со мной поступили несправедливо, я отомщу при первом же удобном случае,
@@ -898,7 +898,7 @@ class Player(BasePlayer):
 
     abuse_you = models.PositiveIntegerField(
         label=(''),
-        choices=Constants.FEATURE_CHOICES,
+        choices=Constants.FEATURE_CHOICES_1_10,
         widget=LikertWidget(
             quote=_(
                 'Как Вы думаете, если представится возможность, большинство людей попытались бы использовать вас в своих интересах, или вели бы себя порядочно?'),

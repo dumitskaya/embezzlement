@@ -6,9 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    {% for foo in form %}
-        {% hsefield foo %}
-    {% endfor %}
+     {% formfields %}
 
 
     {% next_button %}

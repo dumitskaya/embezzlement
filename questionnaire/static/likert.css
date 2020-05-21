@@ -50,6 +50,9 @@
 
 .chart-scale {
     min-width: 475px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
 }
 .likert-left-header{
 

@@ -7,8 +7,8 @@
 
 {% block content %}
 
-    {% joined_form form %}
 
+ {% include 'questionnaire/includes/joined_field.html' with jfield=view.values_fields form=form %}
     {% next_button %}
 
 {% endblock %}
