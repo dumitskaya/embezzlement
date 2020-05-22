@@ -2,13 +2,21 @@
 {% load otree hse %}
 
 {% block title %}
-    Pay tax
+    Налог
 {% endblock %}
 
 {% block content %}
   {% include 'embez/includes/role_block.html' %}
-    {% card header='Tax info card' %}
-        HERE IS SOMETHING ABOUT PAYING TAXES FROM ENDOWMENT BY PRESSING BUTTON BELOW
+           <table class="table">
+         <tr>
+            <td>Ваше состояние на данный момент</td>
+            <td>{{ player.endowment }}</td>
+        </tr>
+            </table>
+    {% card header='Информация о налоге' %}
+        Из изначальной суммы (10 токенов) Вы должны заплатить налог в размере
+        5 токенов, который в следующем этапе будет увеличен и равномерно распределен между Чиновником 
+        и Гражданином. Чтобы выплатить налог нажмите на 'Pay tax'.
     {% endcard %}
     {% hse_button label='Pay tax' html_class='btn-danger'%}
 

@@ -11,7 +11,7 @@ from otree.api import (
 import random
 import numpy as np
 
-author = 'Your name here'
+author = 'Anna'
 
 doc = """
 Your app description
@@ -33,12 +33,12 @@ class Constants(BaseConstants):
     fine_coef = 1.5
 
     correct_answers = dict(
-        cq1_1=30,
+        cq1_1=10,
         cq1_2=30,
-        cq2_1=21,
-        cq2_2=31,
-        cq3_1=9,
-        cq3_2=10,
+        cq2_1=15,
+        cq2_2=10,
+        cq3_1=20,
+        cq3_2=20,
     )
 
 
@@ -59,13 +59,13 @@ class Group(BaseGroup):
     real_k = models.FloatField()
     k_declare = models.FloatField(
         widget=widgets.RadioSelectHorizontal,
-        label='Choose what K you would like to declare to a Citizen')
+        label='Выберите значение коэффициента, которое Вы объявите Гражданину:')
 
     def k_declare_choices(self):
         return [i for i in Constants.K_CHOICES if i <= self.real_k]
 
     incentive = models.IntegerField()
-    k_belief = models.FloatField(label='What was the true K in this period in your opinion?',
+    k_belief = models.FloatField(label='Как Вы думаете, чему был равен истинный коэффициент?',
                                  choices=Constants.K_CHOICES,
                                  widget=widgets.RadioSelectHorizontal, )
     taxes_paid = models.CurrencyField()
