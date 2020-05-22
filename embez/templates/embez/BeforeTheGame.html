@@ -2,7 +2,7 @@
 {% load otree  hse %}
 
 {% block title %}
-    The study is about to start
+    Игра начинается
 {% endblock %}
 
 {% block content %}
@@ -22,7 +22,9 @@
 
     </table>
     {% card %}
-        Now the study will start. Please click 'Proceed with the study' button below
+        Игра начинается. Чтобы приступить к игре нажмите на кнопку 'Proceed with the study'.
+        Если вы захотите взглянуть на инструкцию, вы можете нажать на кнопку Show
+         Instructions в любой момент игры. 
     {% endcard %}
 
     {% hse_button label='Proceed with the study' html_class='btn-danger' %}

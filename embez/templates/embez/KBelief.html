@@ -2,16 +2,19 @@
 {% load otree hse %}
 
 {% block title %}
-    Citizen declares beliefs
+ Угадывание истинного коэффициента
 {% endblock %}
 
 {% block content %}
     {% include 'embez/includes/role_block.html' %}
-    {% card style='warning' title='Declared K'%}
-        K declared by official was <span class="font-weight-bold">{{ group.k_declare }}</span>
+    {% card style='warning' title='Объявленный коэффициент'%}
+        Чиновник объявил коэффициент, равный <span class="font-weight-bold">{{ group.k_declare }}</span>
     {% endcard %}
-    {% card title='Some info about beliefs' %}
-        HERE GOES SOME REMINDER ABOUT BELIEF ELICITATION
+    {% card title='Дополнительнй бонус' %}
+Как было сказано ранее, Чиновник может объявить коэффициент равный истинному или меньше истинного и забрать 
+недораспределенную часть налога. Еcли вы угадаете значение истинного коэффициента, то мы выплатим вам 
+<span class="font-weight-bold"> дополнительный бонус </span> в Толоке. После всех раундов игры мы случайным образом выберем один из раундов, где 
+проверим, угадали вы или нет. При угадывании коэффициента мы выплатим вам дополнительные 5 токенов.
     {% endcard %}
     {% formfields %}
     {% next_button %}
