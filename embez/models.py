@@ -11,7 +11,7 @@ from otree.api import (
 import random
 import numpy as np
 
-author = 'Your name here'
+author = 'Anna'
 
 doc = """
 Your app description
