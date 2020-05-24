@@ -9,9 +9,6 @@ class FirstWP(WaitPage):
     after_all_players_arrive = 'after_group_is_formed'
 
 
-class Intro(Page):
-    pass
-
 
 class Instructions(InstructionPage):
     pass
@@ -23,7 +20,14 @@ class Examples(InstructionPage):
 
 class CQs(InstructionPage):
     form_model = 'player'
-    form_fields = ["cq1_1", "cq1_2", "cq2_1", "cq2_2", "cq3_1", "cq3_2", ]
+    form_fields = [
+        "cq1_1",
+        "cq1_2",
+        "cq2_1",
+        "cq2_2",
+        "cq3_1",
+        "cq3_2",
+    ]
 
 
 class BeforeTheGame(InstructionPage):
@@ -59,7 +63,6 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
-    Intro,
     Instructions,
     Examples,
     CQs,
