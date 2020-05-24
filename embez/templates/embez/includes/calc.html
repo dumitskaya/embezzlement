@@ -1,0 +1,88 @@
+{% load otree %}
+<div class="container" id='{{ vue_app_id }}' v-cloak>
+    <div class="row">
+        <div class="col">
+            <div class="form-group " v-if='!initialK'>
+
+                <label class="col-form-label" for="id_k_declare_0">Выберите для примера значение коэффициента К:</label>
+                <div class="controls  field-k_declare">
+
+                    <div class="form-check form-check-inline" v-for='(i, ind) in  KChoices'>
+                        <input type="radio" name="true_k" :value='i' v-model='trueK' required
+                               :id="`id_true_k_${ind}`" class="form-check-input">
+
+                        <label :for="`id_true_k_${ind}`" class="form-check-label">[[i]]</label>
+                    </div>
+
+                </div>
+
+            </div>
+            <div v-if="trueK">
+                <div class="alert alert-danger my-3" v-if='initialK'>
+                    Истинное значение коэффициента: [[trueK]]
+                </div>
+
+                <div class="form-group required">
+
+                    <label class="col-form-label" for="id_k_declare_0">{{ k_declare_text }}:</label>
+                    <div class="controls  field-k_declare">
+
+                        <div class="form-check form-check-inline" v-for='(i, ind) in  KDchoices'>
+                            <input type="radio" name="k_declare" :value='i' v-model='declaredK' required
+                                   :id="`id_k_declare_${ind}`" class="form-check-input">
+
+                            <label :for="`id_k_declare_${ind}`" class="form-check-label">[[i]]</label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="info" v-if='declaredK'>
+                    <div class="alert alert-info">
+                        {{ citizen_result_text }} [[citizenBonusDiff()]]
+                    </div>
+                    <div class="alert alert-info">
+                        {{ officer_result_text }} [[officerBonusDiff()]]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+<script>
+    var app = new Vue({
+        el: "#{{ vue_app_id }}",
+        data() {
+            return {
+                initialK: {{initial_k|default_if_none:None|json}},
+                KChoices: {{Constants.K_CHOICES|json}},
+                trueK: null,
+                totalTaxesPaid: {{total_taxes|json}},
+                declaredK: null
+            };
+        },
+        created() {
+            this.trueK = this.initialK
+        },
+        computed: {
+            kDiff() {
+                return this.trueK - this.declaredK;
+            },
+            KDchoices() {
+                return _.map(_.range(1, this.trueK + 0.001, {{Constants.k_step}}), (i) => _.round(i, 2));
+            }
+        },
+        methods: {
+            citizenBonusDiff() {
+                return (this.kDiff * this.totalTaxesPaid) / 2;
+            },
+            officerBonusDiff() {
+                return this.kDiff * this.totalTaxesPaid;
+            }
+        },
+        delimiters: ["[[", "]]"]
+    });
+
+</script>

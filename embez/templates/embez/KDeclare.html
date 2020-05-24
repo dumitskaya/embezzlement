@@ -6,18 +6,18 @@
 {% endblock %}
 
 {% block content %}
-   {% include 'embez/includes/role_block.html' %}
-    {% card style='danger'%}
+    {% include 'embez/includes/role_block.html' %}
+    {% card style='danger' %}
         Истинный коэффициент равен <span class="font-weight-bold">{{ group.real_k }}</span>
     {% endcard %}
-    {% card  header='Какой коэффициент выбрать' %}
-        Если Вы выберете коэффициент, равный истинному, Ваш выигрыш будет равен выигрышу Гражданина. 
+    {% card header='Какой коэффициент выбрать' %}
+        Если Вы выберете коэффициент, равный истинному, Ваш выигрыш будет равен выигрышу Гражданина.
         Если вы выберете коэффициент меньше истинного, Вы получите <span class="font-weight-bold"> дополнительный бонус
-         </span>, который потом 
+         </span>, который потом
         будет выплачен Вам в Толоке.
     {% endcard %}
 
-{% formfields %}
+    {% include 'embez/includes/calc.html' with initial_k=group.real_k vue_app_id='declare_vue_app' k_declare_text='Выберите значение коэффициента, которое Вы объявите Гражданину:' citizen_result_text='Вы уменьшаете бонус Гражданина на' officer_result_text='Вы увеличиваете свой бонус на' total_taxes=Constants.total_taxes %}
     {% next_button %}
 
 {% endblock %}
