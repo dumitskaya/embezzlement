@@ -39,7 +39,7 @@
             Сумма выигрыша Гражданина в этом периоде остается неизменной.
         </li>
          <li class="list-group-item">
-             {% include 'embez/includes/calc.html' with vue_app_id=calc_app_id  k_declare_text='Выберите для примера коэффицент который выберет Чиновник' citizen_result_text='Бонус Гражданина уменьшится на' officer_result_text='Бонус Чиновника увеличится на' total_taxes=Constants.total_taxes%}
+             {% include 'embez/includes/calc.html' with vue_app_id=calc_app_id  k_declare_text='Выберите для примера коэффициент, который объявит Чиновник' citizen_result_text='Бонус Гражданина уменьшится на' officer_result_text='Бонус Чиновника увеличится на'  officer_fine_text='Штраф Чиновника при проверке' total_taxes=Constants.total_taxes%}
         </li>
     </ul>
 

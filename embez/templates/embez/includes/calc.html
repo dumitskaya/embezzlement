@@ -4,7 +4,7 @@
         <div class="col">
             <div class="form-group " v-if='!initialK'>
 
-                <label class="col-form-label" for="id_k_declare_0">Выберите для примера значение коэффициента К:</label>
+                <label class="col-form-label" for="id_k_declare_0">Выберите для примера истинное значение коэффициента К:</label>
                 <div class="controls  field-k_declare">
 
                     <div class="form-check form-check-inline" v-for='(i, ind) in  KChoices'>
@@ -44,6 +44,9 @@
                     <div class="alert alert-info">
                         {{ officer_result_text }} [[officerBonusDiff()]]
                     </div>
+                        <div class="alert alert-info">
+                        {{ officer_fine_text }} [[officerfine()]]
+                    </div>
                 </div>
             </div>
         </div>
@@ -80,6 +83,10 @@
             },
             officerBonusDiff() {
                 return this.kDiff * this.totalTaxesPaid;
+            }
+        ,
+                    officerfine() {
+                return this.kDiff * this.totalTaxesPaid * 3/2;
             }
         },
         delimiters: ["[[", "]]"]
