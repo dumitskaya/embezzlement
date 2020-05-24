@@ -27,6 +27,7 @@ class Constants(BaseConstants):
     k_step = 0.25
     endowment = 10
     tax_rate = .5
+    total_taxes = players_per_group*endowment*tax_rate
     coef = .2
     checking_prob = .3
     K_CHOICES = list(np.arange(k_min, k_max + 0.01, k_step))
