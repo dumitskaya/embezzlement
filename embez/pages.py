@@ -42,21 +42,17 @@ class PayTax(InstructionPage):
         self.player.tax_paid = self.player.endowment * Constants.tax_rate
 
 
-import numpy as np
-
-
 class KDeclare(OfficialPage):
     form_model = 'group'
     form_fields = ['k_declare']
-
-    def vars_for_template(self):
-        ar = np.arange(1, 3, .35)
-        return dict(testlist=[f'{i:.2f}' for i in ar])
 
 
 class KBelief(CitizenPage):
     form_model = 'group'
     form_fields = ['k_belief']
+
+    def before_next_page(self):
+        self.player.set_guess_payoff()
 
 
 class ResultsWaitPage(WaitPage):
@@ -69,11 +65,11 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
-    # Instructions,
-    # Examples,
-    # CQs,
-    # BeforeTheGame,
-    # PayTax,
+    Instructions,
+    Examples,
+    CQs,
+    BeforeTheGame,
+    PayTax,
     KDeclare,
     ResultsWaitPage,
     Results,

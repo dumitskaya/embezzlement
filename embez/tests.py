@@ -18,4 +18,4 @@ class PlayerBot(Bot):
 
         yield Results
         if self.player.role() == 'citizen':
-            yield KBelief, dict(k_belief=random.choice(Constants.K_CHOICES))
+            yield KBelief, dict(k_belief=random.choice(self.group.k_belief_choices()))

@@ -75,7 +75,6 @@
                 return this.trueK - this.declaredK;
             },
             KDchoices() {
-                console.debug(_.map(_.range(1, this.trueK + 0.001, {{Constants.k_step|json}}), (i) => _.round(i, 2)))
                 return _.map(_.range(1, this.trueK + 0.001, {{Constants.k_step|json}}), (i) => _.round(i, 2));
             }
         },

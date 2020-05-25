@@ -15,8 +15,8 @@ SESSION_CONFIGS = [
         display_name="Embezzlement game - baseline",
         num_demo_participants=2,
         app_sequence=[
-            # 'start',
-            'embez'
+            'start',
+            'embez',
         ],
         treatment='baseline'
     ),
@@ -32,7 +32,7 @@ SESSION_CONFIGS = [
         name='full',
         display_name="Full version",
         num_demo_participants=2,
-        app_sequence=['start','embez', 'questionnaire', 'last'],
+        app_sequence=['start', 'embez', 'questionnaire', 'last'],
 
     ),
 ]
