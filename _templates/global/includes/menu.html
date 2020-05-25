@@ -1,6 +1,6 @@
 {% load otree i18n %}
 {% if view.get_progress|default_if_none:False or  view.show_instructions|default_if_none:False %}
-    <div class="fixed-top">
+    <div class="fixed-top menu-wrapper">
         {% if view.get_progress|default_if_none:False %}
             <div class="progress progress2">
                 <div class="progress-bar   " role="progressbar" style="width: {{ view.get_progress }}%"

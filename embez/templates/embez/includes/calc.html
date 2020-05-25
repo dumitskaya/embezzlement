@@ -4,7 +4,8 @@
         <div class="col">
             <div class="form-group " v-if='!initialK'>
 
-                <label class="col-form-label" for="id_k_declare_0">Выберите для примера истинное значение коэффициента К:</label>
+                <label class="col-form-label" for="id_k_declare_0">Выберите для примера истинное значение коэффициента
+                    К:</label>
                 <div class="controls  field-k_declare">
 
                     <div class="form-check form-check-inline" v-for='(i, ind) in  KChoices'>
@@ -28,7 +29,7 @@
                     <div class="controls  field-k_declare">
 
                         <div class="form-check form-check-inline" v-for='(i, ind) in  KDchoices'>
-                            <input type="radio" name="k_declare" :value='i' v-model='declaredK' required
+                            <input type="radio" name="k_declare" :value='i.toFixed(2)' v-model='declaredK' required
                                    :id="`id_k_declare_${ind}`" class="form-check-input">
 
                             <label :for="`id_k_declare_${ind}`" class="form-check-label">[[i]]</label>
@@ -44,7 +45,7 @@
                     <div class="alert alert-info">
                         {{ officer_result_text }} [[officerBonusDiff()]]
                     </div>
-                        <div class="alert alert-info">
+                    <div class="alert alert-info">
                         {{ officer_fine_text }} [[officerfine()]]
                     </div>
                 </div>
@@ -74,7 +75,8 @@
                 return this.trueK - this.declaredK;
             },
             KDchoices() {
-                return _.map(_.range(1, this.trueK + 0.001, {{Constants.k_step}}), (i) => _.round(i, 2));
+                console.debug(_.map(_.range(1, this.trueK + 0.001, {{Constants.k_step|json}}), (i) => _.round(i, 2)))
+                return _.map(_.range(1, this.trueK + 0.001, {{Constants.k_step|json}}), (i) => _.round(i, 2));
             }
         },
         methods: {
@@ -83,10 +85,9 @@
             },
             officerBonusDiff() {
                 return this.kDiff * this.totalTaxesPaid;
-            }
-        ,
-                    officerfine() {
-                return this.kDiff * this.totalTaxesPaid * 3/2;
+            },
+            officerfine() {
+                return this.kDiff * this.totalTaxesPaid * 3 / 2;
             }
         },
         delimiters: ["[[", "]]"]

@@ -10,6 +10,7 @@ from otree.api import (
 )
 import random
 import numpy as np
+from decimal import *
 
 author = 'Anna'
 
@@ -27,10 +28,11 @@ class Constants(BaseConstants):
     k_step = 0.25
     endowment = 10
     tax_rate = .5
-    total_taxes = players_per_group*endowment*tax_rate
+    total_taxes = players_per_group * endowment * tax_rate
     coef = .2
     checking_prob = .3
     K_CHOICES = list(np.arange(k_min, k_max + 0.01, k_step))
+    K_CHOICES_STR = [float(round(i,2)) for i in K_CHOICES]
     fine_coef = 1.5
 
     correct_answers = dict(
@@ -63,7 +65,7 @@ class Group(BaseGroup):
         label='Выберите значение коэффициента, которое Вы объявите Гражданину:')
 
     def k_declare_choices(self):
-        return [i for i in Constants.K_CHOICES if i <= self.real_k]
+        return [f'{i:.2f}' for i in Constants.K_CHOICES if i <= self.real_k]
 
     incentive = models.IntegerField()
     k_belief = models.FloatField(label='Как Вы думаете, чему был равен истинный коэффициент?',

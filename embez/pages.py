@@ -9,7 +9,6 @@ class FirstWP(WaitPage):
     after_all_players_arrive = 'after_group_is_formed'
 
 
-
 class Instructions(InstructionPage):
     pass
 
@@ -43,9 +42,16 @@ class PayTax(InstructionPage):
         self.player.tax_paid = self.player.endowment * Constants.tax_rate
 
 
+import numpy as np
+
+
 class KDeclare(OfficialPage):
     form_model = 'group'
     form_fields = ['k_declare']
+
+    def vars_for_template(self):
+        ar = np.arange(1, 3, .35)
+        return dict(testlist=[f'{i:.2f}' for i in ar])
 
 
 class KBelief(CitizenPage):
@@ -63,11 +69,11 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
-    Instructions,
-    Examples,
-    CQs,
-    BeforeTheGame,
-    PayTax,
+    # Instructions,
+    # Examples,
+    # CQs,
+    # BeforeTheGame,
+    # PayTax,
     KDeclare,
     ResultsWaitPage,
     Results,
