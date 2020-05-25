@@ -9,7 +9,6 @@ class FirstWP(WaitPage):
     after_all_players_arrive = 'after_group_is_formed'
 
 
-
 class Instructions(InstructionPage):
     pass
 
@@ -51,6 +50,9 @@ class KDeclare(OfficialPage):
 class KBelief(CitizenPage):
     form_model = 'group'
     form_fields = ['k_belief']
+
+    def before_next_page(self):
+        self.player.set_guess_payoff()
 
 
 class ResultsWaitPage(WaitPage):

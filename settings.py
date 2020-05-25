@@ -16,7 +16,7 @@ SESSION_CONFIGS = [
         num_demo_participants=2,
         app_sequence=[
             'start',
-            'embez'
+            'embez',
         ],
         treatment='baseline'
     ),
@@ -32,14 +32,14 @@ SESSION_CONFIGS = [
         name='full',
         display_name="Full version",
         num_demo_participants=2,
-        app_sequence=['start','embez', 'questionnaire', 'last'],
+        app_sequence=['start', 'embez', 'questionnaire', 'last'],
 
     ),
 ]
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'ru'
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'USD'

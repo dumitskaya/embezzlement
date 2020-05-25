@@ -10,6 +10,7 @@ from otree.api import (
 )
 import random
 import numpy as np
+from decimal import *
 
 author = 'Anna'
 
@@ -27,12 +28,12 @@ class Constants(BaseConstants):
     k_step = 0.25
     endowment = 10
     tax_rate = .5
-    total_taxes = players_per_group*endowment*tax_rate
+    total_taxes = players_per_group * endowment * tax_rate
     coef = .2
     checking_prob = .3
     K_CHOICES = list(np.arange(k_min, k_max + 0.01, k_step))
     fine_coef = 1.5
-
+    guess_bonus = c(5)
     correct_answers = dict(
         cq1_1=10,
         cq1_2=30,
@@ -63,7 +64,10 @@ class Group(BaseGroup):
         label='Выберите значение коэффициента, которое Вы объявите Гражданину:')
 
     def k_declare_choices(self):
-        return [i for i in Constants.K_CHOICES if i <= self.real_k]
+        return [f'{i:.2f}' for i in Constants.K_CHOICES if i <= self.real_k]
+
+    def k_belief_choices(self):
+        return [f'{i:.2f}' for i in Constants.K_CHOICES if i >= self.k_declare]
 
     incentive = models.IntegerField()
     k_belief = models.FloatField(label='Как Вы думаете, чему был равен истинный коэффициент?',
@@ -123,12 +127,18 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     endowment = models.CurrencyField()
     tax_paid = models.CurrencyField()
+    guess_bonus = models.CurrencyField(initial=0)
     cq1_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
     cq1_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
     cq2_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
     cq2_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
     cq3_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
     cq3_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
+
+    def set_guess_payoff(self):
+        g = self.group
+        self.guess_bonus = Constants.guess_bonus * (g.k_declare == g.k_belief)
+        self.payoff += self.guess_bonus
 
     def role_desc(self):
         """return Russian description of role - for showing at the pages"""

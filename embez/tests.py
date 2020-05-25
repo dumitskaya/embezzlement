@@ -16,7 +16,6 @@ class PlayerBot(Bot):
             available_choices = self.group.k_declare_choices()
             yield Submission(KDeclare, dict(k_declare=random.choice(available_choices)), check_html=False)
 
-
         yield Results
         if self.player.role() == 'citizen':
-            yield KBelief, dict(k_belief=random.choice(Constants.K_CHOICES))
+            yield KBelief, dict(k_belief=random.choice(self.group.k_belief_choices()))
