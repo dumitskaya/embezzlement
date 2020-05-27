@@ -137,7 +137,22 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    off_pos = models.BooleanField(label=_("Если бы вы знали, что Гражданин может повысить вероятность проверки, стали бы вы объявлять коэффициент меньше истинного?"),
+                                      choices=Constants.IS_OCCUPIED_CHOICES,
+                                      widget=widgets.RadioSelectHorizontal)
 
+    off_neg = models.BooleanField(label=_("Если бы у Гражданина была возможность заплатить вам деньги напрямую, вы бы стали объявлять истинное значение коэффициента?"),
+                                      choices=Constants.IS_OCCUPIED_CHOICES,
+                                      widget=widgets.RadioSelectHorizontal)
+    
+    cit_pos = models.BooleanField(label=_("Если бы у вас была возможность заплатить деньги, чтобы повысить вероятность проверки действий Чиновника, стали бы вы это делать?"),
+                                      choices=Constants.IS_OCCUPIED_CHOICES,
+                                      widget=widgets.RadioSelectHorizontal)  
+    
+    cit_neg = models.BooleanField(label=_("Если бы вы могли напрямую заплатить Чиновнику, чтоб он объявил истинный коэффициент, стали бы вы это делать?"),
+                                      choices=Constants.IS_OCCUPIED_CHOICES,
+                                      widget=widgets.RadioSelectHorizontal)  
+    
     gender = models.BooleanField(initial=None,
                                  choices=Constants.GENDER_CHOICES,
                                  label=_('Ваш пол'),
