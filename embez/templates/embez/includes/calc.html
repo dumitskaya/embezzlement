@@ -39,14 +39,15 @@
 
                 </div>
                 <div class="info" v-if='declaredK'>
+
                     <div class="alert alert-info">
-                        {{ citizen_result_text }} [[citizenBonusDiff()]]
+                        {{ citizen_payoff_text }} [[citizenPayoff()]]
                     </div>
                     <div class="alert alert-info">
-                        {{ officer_result_text }} [[officerBonusDiff()]]
+                        {{ officer_payoff_no_text }} [[officerPayoffNo()]]
                     </div>
                     <div class="alert alert-info">
-                        {{ officer_fine_text }} [[officerfine()]]
+                        {{ officer_payoff_yes_text }} [[officerPayoffYes()]]
                     </div>
                 </div>
             </div>
@@ -84,6 +85,15 @@
             },
             officerBonusDiff() {
                 return this.kDiff * this.totalTaxesPaid;
+            },
+            officerPayoffNo() {
+                return 10-5+this.kDiff * this.totalTaxesPaid+(this.declaredK * this.totalTaxesPaid) / 2;
+            },
+            officerPayoffYes() {
+                return 10-5+this.kDiff * this.totalTaxesPaid+(this.declaredK * this.totalTaxesPaid) / 2 - this.kDiff * this.totalTaxesPaid * 3 / 2;
+            },
+            citizenPayoff() {
+                return 10-5+(this.declaredK * this.totalTaxesPaid) / 2;
             },
             officerfine() {
                 return this.kDiff * this.totalTaxesPaid * 3 / 2;

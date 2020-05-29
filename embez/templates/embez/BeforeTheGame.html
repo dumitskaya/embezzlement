@@ -9,13 +9,13 @@
     {% include 'embez/includes/role_block.html' %}
     <table class="table table-hover table-striped">
         <thead>
-        <th>Question</th>
-        <th>Correct</th>
+        <th>Вопрос</th>
+        <th>Правильно</th>
         </thead>
         {% for foo in results %}
             <tr>
-                <td>Question {{ forloop.counter }}</td>
-                <td>{{ foo|yesno:'Yes,No' }}</td>
+                <td>Вопрос {{ forloop.counter }}</td>
+                <td>{{ foo|yesno:'Да,Нет' }}</td>
             </tr>
 
         {% endfor %}

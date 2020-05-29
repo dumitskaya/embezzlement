@@ -81,7 +81,12 @@ class Incentives_Cit(Page):
             'cit_pos',
             'cit_neg'
     ]
-
+class Questions(Page):
+    template_name = 'questionnaire/Questions.html'
+    form_model = 'player'
+    form_fields = [
+            'quest'
+    ]
 page_sequence = [
     FirstWP,
     Instructions,
@@ -95,4 +100,5 @@ page_sequence = [
     KBelief,
     Incentives_Off,
     Incentives_Cit,
+    Questions,
 ]

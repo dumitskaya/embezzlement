@@ -1,12 +1,22 @@
 {% load hse %}
 {% card %}
     <ul class="list-group list-group-flush ">
+        <li class="list-group-item"> <span class="font-weight-bold"> Вимательно ознакомьтесь с инструкцией игры, 
+        так как от этого будет зависеть размер вашего бонуса. </span>
+        </li>
+ 
+    <ul class="list-group list-group-flush ">
         <li class="list-group-item">В ходе игры Вы будете случайным образом распределены на группы по два человека.
             В каждой группе Вам случайным образом будет присвоена одна из двух ролей: Гражданин или Чиновник.
             В начале каждого периода каждый участник группы, вне зависимости от его роли,
             получает первоначальную сумму в 10 токенов.
         </li>
-
+            <ul class="list-group list-group-flush ">
+        <li class="list-group-item">Напоминаем, что мы используем игровые денежные единицы - токены которые конвертируются по следующему курсу:
+        </li>
+        <li class="list-group-item text-center list-group-item-primary font-weight-bold">
+                                        10 токенов = Y USD
+                </li>
         <li class="list-group-item">Каждый участник, Гражданин и Чиновник, из этой суммы платит фиксированный налог
             в
             размере 5 токенов. Общая сумма налога, выплаченная обоими членами группы, умножается на коэффициент К, а
@@ -39,7 +49,7 @@
             Сумма выигрыша Гражданина в этом периоде остается неизменной.
         </li>
          <li class="list-group-item">
-             {% include 'embez/includes/calc.html' with vue_app_id=calc_app_id  k_declare_text='Выберите для примера коэффициент, который объявит Чиновник' citizen_result_text='Бонус Гражданина уменьшится на' officer_result_text='Бонус Чиновника увеличится на'  officer_fine_text='Штраф Чиновника при проверке' total_taxes=Constants.total_taxes%}
+             {% include 'embez/includes/calc.html' with vue_app_id=calc_app_id  k_declare_text='Выберите для примера коэффициент, который объявит Чиновник'  officer_payoff_no_text='Бонус Чиновника без проверки равен' officer_payoff_yes_text='Бонус Чиновника при проверке равен' citizen_payoff_text='Бонус Гражданина равен' total_taxes=Constants.total_taxes%}
         </li>
     </ul>
 

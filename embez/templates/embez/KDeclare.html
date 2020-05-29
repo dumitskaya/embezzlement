@@ -18,7 +18,7 @@
         будет выплачен Вам в Толоке.
     {% endcard %}
 <h1> {{ form.k_declare.errors }}</h1>
-    {% include 'embez/includes/calc.html' with initial_k=group.real_k vue_app_id='declare_vue_app' k_declare_text='Выберите значение коэффициента, которое Вы объявите Гражданину:' citizen_result_text='Вы уменьшаете бонус Гражданина на' officer_result_text='Вы увеличиваете свой бонус на' officer_fine_text='Штраф при проверке' total_taxes=Constants.total_taxes %}
+    {% include 'embez/includes/calc.html' with initial_k=group.real_k vue_app_id='declare_vue_app' k_declare_text='Выберите значение коэффициента, которое Вы объявите Гражданину:' officer_payoff_no_text='Ваш бонус без проверки равен' officer_payoff_yes_text='Ваш бонус при проверке равен' citizen_payoff_text='Бонус Гражданина равен' total_taxes=Constants.total_taxes %}
     {% next_button %}
 
 {% endblock %}

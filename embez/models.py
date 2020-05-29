@@ -150,6 +150,9 @@ class Player(BasePlayer):
     cit_neg = models.BooleanField(label=("Если бы вы могли напрямую заплатить Чиновнику, чтоб он объявил истинный коэффициент, стали бы вы это делать?"),
                                       choices=Constants.IS_OCCUPIED_CHOICES,
                                       widget=widgets.RadioSelectHorizontal)
+    
+    quest = models.StringField(label=('Если у вас возникли проблемы с пониманием инструкции, то напишите, что именно было непонятно:'),
+                                      initial='Проблем не возникло')
     def set_guess_payoff(self):
         g = self.group
         self.guess_bonus = Constants.guess_bonus * (g.k_declare == g.k_belief)
