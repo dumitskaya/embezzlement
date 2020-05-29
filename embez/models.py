@@ -128,12 +128,12 @@ class Player(BasePlayer):
     endowment = models.CurrencyField()
     tax_paid = models.CurrencyField()
     guess_bonus = models.CurrencyField(initial=0)
-    cq1_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
-    cq1_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
-    cq2_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
-    cq2_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
-    cq3_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
-    cq3_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
+    cq1_1 = models.IntegerField(label='Какое вознаграждение получает Гражданин?')
+    cq1_2 = models.IntegerField(label='Какое вознаграждение получает Чиновник?')
+    cq2_1 = models.IntegerField(label='Какое вознаграждение получает Гражданин?')
+    cq2_2 = models.IntegerField(label='Какое вознаграждение получает Чиновник?')
+    cq3_1 = models.IntegerField(label='Какое вознаграждение получает Гражданин?')
+    cq3_2 = models.IntegerField(label='Какое вознаграждение получает Чиновник?')
     
     off_pos = models.BooleanField(label=("Если бы вы знали, что Гражданин может повысить вероятность проверки, стали бы вы объявлять коэффициент меньше истинного?"),
                                       choices=Constants.IS_OCCUPIED_CHOICES,
