@@ -62,31 +62,24 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     pass
 
-class Incentives_Off(Page):
-    def is_displayed(self):
-        return self.player.id_in_group == 1
-    template_name = 'questionnaire/Incentives_Off.html'
-    form_model = 'player'
-    form_fields = [
-            'off_pos',
-            'off_neg'
-    ]
 
-class Incentives_Cit(Page):
-    def is_displayed(self):
-        return self.player.id_in_group != 1
-    template_name = 'questionnaire/Incentives_Cit.html'
+class Incentives(Page):
     form_model = 'player'
-    form_fields = [
-            'cit_pos',
-            'cit_neg'
-    ]
-class Questions(Page):
-    template_name = 'questionnaire/Questions.html'
-    form_model = 'player'
-    form_fields = [
-            'quest'
-    ]
+
+    def get_form_fields(self):
+        if self.player.role() == 'officer':
+            q = [
+                'off_pos',
+                'off_neg'
+            ]
+        else:
+            q = [
+                'cit_pos',
+                'cit_neg'
+            ]
+        return ['quest'] + q
+
+
 page_sequence = [
     FirstWP,
     Instructions,
@@ -98,7 +91,5 @@ page_sequence = [
     ResultsWaitPage,
     Results,
     KBelief,
-    Incentives_Off,
-    Incentives_Cit,
-    Questions,
+    Incentives,
 ]

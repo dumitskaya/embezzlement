@@ -25,6 +25,7 @@ SESSION_CONFIGS = [
         app_sequence=[
             'start',
             'embez',
+            'last'
         ],
         treatment='baseline'
     ),

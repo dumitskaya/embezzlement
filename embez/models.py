@@ -158,7 +158,7 @@ class Player(BasePlayer):
                                   choices=Constants.IS_OCCUPIED_CHOICES,
                                   widget=widgets.RadioSelectHorizontal)
 
-    quest = models.StringField(
+    quest = models.LongStringField(
         label=('Если у вас возникли проблемы с пониманием инструкции, то напишите, что именно было непонятно:'),
         initial='Проблем не возникло')
 
