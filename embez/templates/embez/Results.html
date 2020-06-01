@@ -59,8 +59,12 @@
             </tr>
         {% endif %}
         <tr>
-            <td>Ваш финальный бонус</td>
+            <td>Ваш  бонус</td>
             <td>{{ player.payoff }}</td>
+        </tr>
+        <tr>
+            <td>Ваш финальный бонус в Толоке в центах</td>
+            <td>{{ participant.payoff_in_real_world_currency }}</td>
         </tr>
 
     </table>

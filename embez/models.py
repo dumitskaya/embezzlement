@@ -50,7 +50,9 @@ class Constants(BaseConstants):
 class Subsession(BaseSubsession):
     treatment = models.StringField()
     sign = models.BooleanField(initial=True)
-
+    @property
+    def cents_per_10_tokens(self):
+        return  self.session.config.get('real_world_currency_per_point', 1) * 1000
     def creating_session(self):
         self.treatment = self.session.config.get('treatment')
         if self.treatment == 'negative':
@@ -137,7 +139,7 @@ class Player(BasePlayer):
     cq2_2 = models.IntegerField(label='Какое вознаграждение получает Чиновник?')
     cq3_1 = models.IntegerField(label='Какое вознаграждение получает Гражданин?')
     cq3_2 = models.IntegerField(label='Какое вознаграждение получает Чиновник?')
-
+    tot_correct = models.IntegerField(initial=0, doc='to count number of correct answers')
     off_pos = models.BooleanField(label=(
         "Если бы вы знали, что Гражданин может повысить вероятность проверки, стали бы вы объявлять коэффициент меньше истинного?"),
                                   choices=Constants.IS_OCCUPIED_CHOICES,

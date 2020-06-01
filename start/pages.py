@@ -6,7 +6,7 @@ from .models import Constants
 
 class Intro(Page):
     def vars_for_template(self):
-        return dict(cents_per_10=self.session.config.get('cents_per_token', 1) * 10)
+        return dict(cents_per_10=self.session.config.get('real_world_currency_per_point', 1) * 1000)
 
 
 page_sequence = [

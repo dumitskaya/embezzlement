@@ -12,10 +12,11 @@
             получает первоначальную сумму в 10 токенов.
         </li>
             <ul class="list-group list-group-flush ">
-        <li class="list-group-item">Напоминаем, что мы используем игровые денежные единицы - токены которые конвертируются по следующему курсу:
+        <li class="list-group-item">Напоминаем, что мы используем игровые денежные единицы - токены которые
+            будут конвертированы в ваш бонус в Толоке по следующему курсу:
         </li>
         <li class="list-group-item text-center list-group-item-primary font-weight-bold">
-                                       10 токенов = {{ session.config.cents_per_10_tokens }} центов
+                                       10 токенов = {{ subsession.cents_per_10_tokens|floatformat:0 }} центов
                 </li>
         <li class="list-group-item">Каждый участник, Гражданин и Чиновник, из этой суммы платит фиксированный налог
             в

@@ -27,7 +27,9 @@ SESSION_CONFIGS = [
             'embez',
             'last'
         ],
-        treatment='baseline'
+        treatment='baseline',
+        toloka=True,
+        toloka_sandbox=True
     ),
 
     dict(

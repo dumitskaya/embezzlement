@@ -28,6 +28,12 @@ class CQs(InstructionPage):
         "cq3_2",
     ]
 
+    def before_next_page(self):
+        qs = Constants.correct_answers
+        results = [getattr(self.player, k) == v for k, v in qs.items()]
+
+        self.player.tot_correct = sum(results)
+
 
 class BeforeTheGame(InstructionPage):
     def vars_for_template(self):
