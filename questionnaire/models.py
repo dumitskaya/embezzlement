@@ -125,11 +125,11 @@ class Constants(BaseConstants):
         [4, _('Совершенно не согласен')],
         HARD_TO_SAY_CHOICE
     ]
+
+
 class Subsession(BaseSubsession):
     def creating_session(self):
-        for p in self.get_players():
-            p.payoff = 15
-            p.participant.vars[_('questionnaire_payoff')] = p.payoff.to_real_world_currency(self.session)
+        pass
 
 
 class Group(BaseGroup):
@@ -137,22 +137,26 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    off_pos = models.BooleanField(label=_("Если бы вы знали, что Гражданин может повысить вероятность проверки, стали бы вы объявлять коэффициент меньше истинного?"),
-                                      choices=Constants.IS_OCCUPIED_CHOICES,
-                                      widget=widgets.RadioSelectHorizontal)
+    off_pos = models.BooleanField(label=_(
+        "Если бы вы знали, что Гражданин может повысить вероятность проверки, стали бы вы объявлять коэффициент меньше истинного?"),
+                                  choices=Constants.IS_OCCUPIED_CHOICES,
+                                  widget=widgets.RadioSelectHorizontal)
 
-    off_neg = models.BooleanField(label=_("Если бы у Гражданина была возможность заплатить вам деньги напрямую, вы бы стали объявлять истинное значение коэффициента?"),
-                                      choices=Constants.IS_OCCUPIED_CHOICES,
-                                      widget=widgets.RadioSelectHorizontal)
-    
-    cit_pos = models.BooleanField(label=_("Если бы у вас была возможность заплатить деньги, чтобы повысить вероятность проверки действий Чиновника, стали бы вы это делать?"),
-                                      choices=Constants.IS_OCCUPIED_CHOICES,
-                                      widget=widgets.RadioSelectHorizontal)  
-    
-    cit_neg = models.BooleanField(label=_("Если бы вы могли напрямую заплатить Чиновнику, чтоб он объявил истинный коэффициент, стали бы вы это делать?"),
-                                      choices=Constants.IS_OCCUPIED_CHOICES,
-                                      widget=widgets.RadioSelectHorizontal)  
-    
+    off_neg = models.BooleanField(label=_(
+        "Если бы у Гражданина была возможность заплатить вам деньги напрямую, вы бы стали объявлять истинное значение коэффициента?"),
+                                  choices=Constants.IS_OCCUPIED_CHOICES,
+                                  widget=widgets.RadioSelectHorizontal)
+
+    cit_pos = models.BooleanField(label=_(
+        "Если бы у вас была возможность заплатить деньги, чтобы повысить вероятность проверки действий Чиновника, стали бы вы это делать?"),
+                                  choices=Constants.IS_OCCUPIED_CHOICES,
+                                  widget=widgets.RadioSelectHorizontal)
+
+    cit_neg = models.BooleanField(label=_(
+        "Если бы вы могли напрямую заплатить Чиновнику, чтоб он объявил истинный коэффициент, стали бы вы это делать?"),
+                                  choices=Constants.IS_OCCUPIED_CHOICES,
+                                  widget=widgets.RadioSelectHorizontal)
+
     gender = models.BooleanField(initial=None,
                                  choices=Constants.GENDER_CHOICES,
                                  label=_('Ваш пол'),
