@@ -26,6 +26,8 @@ SESSION_CONFIGS = [
         display_name="Questionnaire + Toloka code",
         num_demo_participants=1,
         app_sequence=['questionnaire', 'last'],
+        toloka=True,
+        toloka_sandbox=True
 
     ),
     dict(
@@ -33,6 +35,8 @@ SESSION_CONFIGS = [
         display_name="Full version",
         num_demo_participants=2,
         app_sequence=['start', 'embez', 'questionnaire', 'last'],
+        toloka=True,
+        toloka_sandbox=True
 
     ),
 ]
@@ -56,4 +60,7 @@ DEMO_PAGE_INTRO_HTML = """ """
 SECRET_KEY = 'k4y6sr0h22wfig5f0ish2w$pqy7ze)&sbqvff#zd)5i$wu-_i$'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
-INSTALLED_APPS = ['otree']
+INSTALLED_APPS = ['otree', 'django.contrib.admin', ]
+EXTENSION_APPS = ['tolokaregister']
+TOLOKA_API = environ.get('TOLOKA_API')
+SANDBOX_TOLOKA_API = environ.get('SANDBOX_TOLOKA_API')
