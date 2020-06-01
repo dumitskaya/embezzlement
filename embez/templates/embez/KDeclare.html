@@ -28,7 +28,8 @@
 
         </div>
     {% endcard %}
-<h1> {{ form.k_declare.errors }}</h1>
+       {% include "otree/forms/errors.html" with errors=form.k_declare.errors %}
+
     {% include 'embez/includes/calc.html' with initial_k=group.real_k vue_app_id='declare_vue_app' k_declare_text='Выберите значение коэффициента, которое Вы объявите Гражданину:' officer_payoff_no_text='Ваш бонус без проверки равен' officer_payoff_yes_text='Ваш бонус при проверке равен' citizen_payoff_text='Бонус Гражданина равен' total_taxes=Constants.total_taxes %}
     {% next_button %}
 

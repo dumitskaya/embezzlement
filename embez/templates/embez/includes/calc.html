@@ -31,11 +31,11 @@
                     <div class="controls  field-k_declare d-flex">
 
                         <div class="form-check form-check-inline" v-for='(i, ind) in  KDchoices'>
-                             <button :class="getDBtnCls(i)" role="button" type="button" :data-value="i"
-                                v-model='declaredK' @click="declaredK=i"
-                        >
-                            [[i]]
-                        </button>
+                            <button :class="getDBtnCls(i)" role="button" type="button" :data-value="i"
+                                    v-model='declaredK' @click="declaredK=i"
+                            >
+                                [[i]]
+                            </button>
 
 
                         </div>
@@ -43,7 +43,7 @@
                     </div>
 
                 </div>
-                 <input type="hidden" name="k_declare" :value="Number.parseFloat(declaredK).toFixed(2)"/>
+                <input type="hidden" name="k_declare" :value="getKforOtree()"/>
                 <div v-if='declaredK'>
                     <table class="table table-striped table-hover">
                         <tr>
@@ -94,23 +94,32 @@
             }
         },
         methods: {
+            getKforOtree() {
+                if (this.declaredK === undefined || this.declaredK === null) {
+                    return ''
+                } else {
+                    return Number.parseFloat(this.declaredK).toFixed(2)
+                }
+
+
+            },
             getBtnCls(i) {
                 clsObj = {...this.btnClassObject};
 
-                if (i===this.trueK) {
+                if (i === this.trueK) {
                     clsObj['btn-outline-primary'] = false;
                     clsObj['btn-danger'] = true;
                 }
-                return {...clsObj, };
+                return {...clsObj,};
             },
             getDBtnCls(i) {
                 clsObj = {...this.btnClassObject};
 
-                if (i===this.declaredK) {
+                if (i === this.declaredK) {
                     clsObj['btn-outline-primary'] = false;
                     clsObj['btn-danger'] = true;
                 }
-                return {...clsObj, };
+                return {...clsObj,};
             },
             citizenBonusDiff() {
                 return (this.kDiff * this.totalTaxesPaid) / 2;

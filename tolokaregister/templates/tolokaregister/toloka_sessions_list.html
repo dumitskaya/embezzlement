@@ -10,6 +10,7 @@
             <thead>
             <th>Session code:</th>
             <th>Sandbox:</th>
+            <th>Demo:</th>
 
             </thead>
             <tbody>
@@ -19,6 +20,7 @@
                         <a href="{% url 'tolokasession' code=tolokasession.code %}">{{ tolokasession.code }}</a>
                     </td>
                     <td>{{ tolokasession.config.toloka_sandbox|default_if_none:False }}</td>
+                    <td>{{ tolokasession.is_demo }}</td>
 
                 </tr>
             {% endfor %}
