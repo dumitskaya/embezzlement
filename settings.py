@@ -12,8 +12,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=CENTS_PER_TOKEN / 100,
     participation_fee=0.00,
     doc="",
-    cents_per_token=CENTS_PER_TOKEN,
-    cents_per_10_tokens=CENTS_PER_TOKEN * 10,
+
     toloka_participation_fee=TOLOKA_PARTICIPATION_FEE
 )
 
