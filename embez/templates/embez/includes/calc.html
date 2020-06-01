@@ -6,9 +6,9 @@
 
                 <label class="col-form-label" for="id_k_declare_0">Выберите для примера истинное значение коэффициента
                     К:</label>
-                <div class="controls  field-k_declare">
+                <div class="controls  d-flex flex-row">
 
-                    <div class="form-check form-check-inline d-flex" v-for='(i, ind) in  KChoices'>
+                    <div class="form-check form-check-inline" v-for='(i, ind) in  KChoices'>
 
                         <button :class="getBtnCls(i)" role="button" type="button" :data-value="i"
                                 v-model='trueK' @click="trueK=i"
