@@ -9,23 +9,22 @@
     {% include 'embez/includes/role_block.html' %}
     <table class="table table-hover table-striped">
         <thead>
-        <th>Question</th>
-        <th>Correct</th>
+        <th>Вопрос</th>
+        <th>Правильно</th>
         </thead>
         {% for foo in results %}
             <tr>
-                <td>Question {{ forloop.counter }}</td>
-                <td>{{ foo|yesno:'Yes,No' }}</td>
+                <td>Вопрос {{ forloop.counter }}</td>
+                <td>{{ foo|yesno:'Да,Нет' }}</td>
             </tr>
 
         {% endfor %}
 
     </table>
     {% card %}
-        Игра начинается. Чтобы приступить к игре нажмите на кнопку 'Proceed with the study'.
-        Если вы захотите перечитать инструкцию, вы можете нажать на кнопку 'Show
-         Instructions' в любой момент игры. 
+        Игра начинается. Чтобы приступить к игре нажмите на кнопку 'Продолжить'.
+        Если вы захотите перечитать инструкцию, вы можете нажать на кнопку 'Инструкции' в любой момент игры. 
     {% endcard %}
 
-    {% hse_button label='Proceed with the study' html_class='btn-danger' %}
+    {% hse_button label='Продолжить' html_class='btn-danger' %}
 {% endblock %}

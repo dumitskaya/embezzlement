@@ -42,7 +42,7 @@ class Constants(BaseConstants):
         cq3_1=20,
         cq3_2=20,
     )
-
+    IS_OCCUPIED_CHOICES = [[False, ('Нет')], [True, ('Да')]]
 
 class Subsession(BaseSubsession):
     treatment = models.StringField()
@@ -128,13 +128,31 @@ class Player(BasePlayer):
     endowment = models.CurrencyField()
     tax_paid = models.CurrencyField()
     guess_bonus = models.CurrencyField(initial=0)
-    cq1_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
-    cq1_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
-    cq2_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
-    cq2_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
-    cq3_1 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Гражданин?')
-    cq3_2 = models.IntegerField(label='Какое вознаграждение в этом периоде получает Чиновник?')
+    cq1_1 = models.IntegerField(label='Какое вознаграждение получает Гражданин?')
+    cq1_2 = models.IntegerField(label='Какое вознаграждение получает Чиновник?')
+    cq2_1 = models.IntegerField(label='Какое вознаграждение получает Гражданин?')
+    cq2_2 = models.IntegerField(label='Какое вознаграждение получает Чиновник?')
+    cq3_1 = models.IntegerField(label='Какое вознаграждение получает Гражданин?')
+    cq3_2 = models.IntegerField(label='Какое вознаграждение получает Чиновник?')
+    
+    off_pos = models.BooleanField(label=("Если бы вы знали, что Гражданин может повысить вероятность проверки, стали бы вы объявлять коэффициент меньше истинного?"),
+                                      choices=Constants.IS_OCCUPIED_CHOICES,
+                                      widget=widgets.RadioSelectHorizontal)
 
+    off_neg = models.BooleanField(label=("Если бы у Гражданина была возможность заплатить вам деньги напрямую, вы бы стали объявлять истинное значение коэффициента?"),
+                                      choices=Constants.IS_OCCUPIED_CHOICES,
+                                      widget=widgets.RadioSelectHorizontal)
+    
+    cit_pos = models.BooleanField(label=("Если бы у вас была возможность заплатить деньги, чтобы повысить вероятность проверки действий Чиновника, стали бы вы это делать?"),
+                                      choices=Constants.IS_OCCUPIED_CHOICES,
+                                      widget=widgets.RadioSelectHorizontal)  
+    
+    cit_neg = models.BooleanField(label=("Если бы вы могли напрямую заплатить Чиновнику, чтоб он объявил истинный коэффициент, стали бы вы это делать?"),
+                                      choices=Constants.IS_OCCUPIED_CHOICES,
+                                      widget=widgets.RadioSelectHorizontal)
+    
+    quest = models.StringField(label=('Если у вас возникли проблемы с пониманием инструкции, то напишите, что именно было непонятно:'),
+                                      initial='Проблем не возникло')
     def set_guess_payoff(self):
         g = self.group
         self.guess_bonus = Constants.guess_bonus * (g.k_declare == g.k_belief)
