@@ -67,6 +67,7 @@
         {% include 'global/includes/menu.html' %}
     {% endblock %}
     {% if view.show_instructions|default_if_none:False %}
+        {% include 'global/includes/calc_modal.html' %}
         {% include 'global/includes/instructions_modal.html' %}
     {% endif %}
 

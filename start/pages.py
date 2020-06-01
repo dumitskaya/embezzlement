@@ -4,10 +4,9 @@ from questionnaire.generic_pages import Page
 from .models import Constants
 
 
-
-
 class Intro(Page):
-    pass
+    def vars_for_template(self):
+        return dict(cents_per_10=self.session.config.get('cents_per_token', 1) * 10)
 
 
 page_sequence = [

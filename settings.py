@@ -5,8 +5,16 @@ from os import environ
 # the session config can be accessed from methods in your apps as self.session.config,
 # e.g. self.session.config['participation_fee']
 
+TOLOKA_PARTICIPATION_FEE = 0.25
+CENTS_PER_TOKEN = 2
+
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
+    real_world_currency_per_point=CENTS_PER_TOKEN / 100,
+    participation_fee=0.00,
+    doc="",
+    cents_per_token=CENTS_PER_TOKEN,
+    cents_per_10_tokens=CENTS_PER_TOKEN * 10,
+    toloka_participation_fee=TOLOKA_PARTICIPATION_FEE
 )
 
 SESSION_CONFIGS = [
@@ -48,7 +56,7 @@ LANGUAGE_CODE = 'ru'
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True
-
+POINTS_DECIMAL_PLACES = 2
 ROOMS = []
 
 ADMIN_USERNAME = 'admin'
@@ -64,3 +72,7 @@ INSTALLED_APPS = ['otree', 'django.contrib.admin', ]
 EXTENSION_APPS = ['tolokaregister']
 TOLOKA_API = environ.get('TOLOKA_API')
 SANDBOX_TOLOKA_API = environ.get('SANDBOX_TOLOKA_API')
+DECIMAL_SEPARATOR = '.'
+FORMAT_MODULE_PATH = [
+    'start.formats',
+]
