@@ -77,7 +77,7 @@ class Incentives(Page):
                 'cit_pos',
                 'cit_neg'
             ]
-        return ['quest'] + q
+        return q + ['quest']
 
 
 page_sequence = [
