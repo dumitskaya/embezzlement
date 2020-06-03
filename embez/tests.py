@@ -13,9 +13,10 @@ class PlayerBot(Bot):
     def play_round(self):
         yield Instructions,
         yield Examples,
-        yield CQs, Constants.correct_answers
+        # yield CQs, Constants.correct_answers
         yield BeforeTheGame,
         yield PayTax,
+        yield RoleAnnouncement,
         if self.player.role() == 'officer':
             available_choices = self.group.k_declare_choices()
             yield Submission(KDeclare, dict(k_declare=random.choice(available_choices)), check_html=False)
