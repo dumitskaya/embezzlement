@@ -8,6 +8,7 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
+from otree.common import random_chars_8
 import random
 import numpy as np
 from decimal import *
@@ -66,7 +67,7 @@ class Subsession(BaseSubsession):
                                                                             'code',
                                                                             'session',
                                                                             'pk', 'vars', 'id_in_session'])
-        kwargs['code'] = str(random.random())
+        kwargs['code'] = random_chars_8()
         kwargs['id_in_session'] = 100000
         kwargs['session'] = self.session
         pa = Participant.objects.create(**kwargs)
