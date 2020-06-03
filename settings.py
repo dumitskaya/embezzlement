@@ -5,7 +5,7 @@ from os import environ
 # the session config can be accessed from methods in your apps as self.session.config,
 # e.g. self.session.config['participation_fee']
 
-TOLOKA_PARTICIPATION_FEE = 0.25
+TOLOKA_PARTICIPATION_FEE = environ.get('TOLOKA_PARTICIPATION_FEE', 0.25)
 CENTS_PER_TOKEN = 2
 
 SESSION_CONFIG_DEFAULTS = dict(
