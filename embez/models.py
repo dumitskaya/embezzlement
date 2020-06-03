@@ -21,14 +21,15 @@ Your app description
 
 class Constants(BaseConstants):
     name_in_url = 'embez'
-    players_per_group = 2
+    players_per_group = None
     num_rounds = 1
     k_min = 1
     k_max = 3
     k_step = 0.25
     endowment = 10
     tax_rate = .5
-    total_taxes = players_per_group * endowment * tax_rate
+    presumed_players_per_group = 2
+    total_taxes = presumed_players_per_group * endowment * tax_rate
     coef = .2
     checking_prob = .3
     checking_prob_formatted = f"{checking_prob:0.0%}"
@@ -47,13 +48,32 @@ class Constants(BaseConstants):
     IS_OCCUPIED_CHOICES = [[False, ('Нет')], [True, ('Да')]]
 
 
+from django.forms.models import model_to_dict
+from otree.models import Participant
+
+
 class Subsession(BaseSubsession):
     treatment = models.StringField()
     sign = models.BooleanField(initial=True)
+
     @property
     def cents_per_10_tokens(self):
-        return  self.session.config.get('real_world_currency_per_point', 1) * 1000
+        return self.session.config.get('real_world_currency_per_point', 1) * 1000
+
     def creating_session(self):
+        ########### BLOCK: PSEUDO ##############################################################
+        kwargs = model_to_dict(self.session.get_participants()[0], exclude=['id',
+                                                                            'code',
+                                                                            'session',
+                                                                            'pk', 'vars', 'id_in_session'])
+        kwargs['code'] = str(random.random())
+        kwargs['id_in_session'] = 100000
+        kwargs['session'] = self.session
+        pa = Participant.objects.create(**kwargs)
+        p = Player.objects.create(participant=pa, session=self.session, subsession=self)
+        p.pseudo = True
+        ############ END OF: PSEUDO #############################################################
+
         self.treatment = self.session.config.get('treatment')
         if self.treatment == 'negative':
             self.sign = False
@@ -94,6 +114,8 @@ class Group(BaseGroup):
     def after_group_is_formed(self):
         # in each period in each group an official is checked with certain probability.
         # we also generate a certain K based on which official can declare his own K
+        for i, p in enumerate(self.get_players(), start=1):
+            p.id_in_group = i
         r = random.random()
         g = self
         g.officer_checked = r < Constants.checking_prob
@@ -117,7 +139,7 @@ class Group(BaseGroup):
         self.taxes_multiplied = self.taxes_paid * self.real_k;
         self.taxes_paid_back = self.taxes_paid * self.k_declare;
         # calculate how much everone one get based on amount declared by officer
-        self.individual_share = self.taxes_paid_back / Constants.players_per_group
+        self.individual_share = self.taxes_paid_back / Constants.presumed_players_per_group
         # calculated an embezzled amount
         self.embezzled_amount = self.taxes_multiplied - self.taxes_paid_back
         for p in self.get_players():
@@ -130,6 +152,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    pseudo = models.BooleanField(initial=False)
     endowment = models.CurrencyField()
     tax_paid = models.CurrencyField()
     guess_bonus = models.CurrencyField(initial=0)
@@ -142,23 +165,23 @@ class Player(BasePlayer):
     tot_correct = models.IntegerField(initial=0, doc='to count number of correct answers')
     off_pos = models.BooleanField(label=(
         "Если бы вы знали, что Гражданин может повысить вероятность проверки, стали бы вы объявлять коэффициент меньше истинного?"),
-                                  choices=Constants.IS_OCCUPIED_CHOICES,
-                                  widget=widgets.RadioSelectHorizontal)
+        choices=Constants.IS_OCCUPIED_CHOICES,
+        widget=widgets.RadioSelectHorizontal)
 
     off_neg = models.BooleanField(label=(
         "Если бы у Гражданина была возможность заплатить вам деньги напрямую, вы бы стали объявлять истинное значение коэффициента?"),
-                                  choices=Constants.IS_OCCUPIED_CHOICES,
-                                  widget=widgets.RadioSelectHorizontal)
+        choices=Constants.IS_OCCUPIED_CHOICES,
+        widget=widgets.RadioSelectHorizontal)
 
     cit_pos = models.BooleanField(label=(
         "Если бы у вас была возможность заплатить деньги, чтобы повысить вероятность проверки действий Чиновника, стали бы вы это делать?"),
-                                  choices=Constants.IS_OCCUPIED_CHOICES,
-                                  widget=widgets.RadioSelectHorizontal)
+        choices=Constants.IS_OCCUPIED_CHOICES,
+        widget=widgets.RadioSelectHorizontal)
 
     cit_neg = models.BooleanField(label=(
         "Если бы вы могли напрямую заплатить Чиновнику, чтоб он объявил истинный коэффициент, стали бы вы это делать?"),
-                                  choices=Constants.IS_OCCUPIED_CHOICES,
-                                  widget=widgets.RadioSelectHorizontal)
+        choices=Constants.IS_OCCUPIED_CHOICES,
+        widget=widgets.RadioSelectHorizontal)
 
     quest = models.LongStringField(
         label=('Если у вас возникли проблемы с пониманием инструкции, то напишите, что именно было непонятно:'),

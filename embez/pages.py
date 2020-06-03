@@ -6,7 +6,7 @@ from .models import Constants
 
 class FirstWP(WaitPage):
     group_by_arrival_time = True
-    after_all_players_arrive = 'after_group_is_formed'
+
 
 
 class Instructions(InstructionPage):
@@ -42,11 +42,29 @@ class BeforeTheGame(InstructionPage):
 
         return dict(results=results)
 
-
+from .models import Group
 class PayTax(InstructionPage):
     def before_next_page(self):
+        pseudo = self.subsession.player_set.get(pseudo=True)
+        if not pseudo.group:
+
+            g = Group.objects.create(session=self.session, subsession=self.subsession,
+                                     id_in_subsession=Group.objects.all().count() + 1)
+            g.save()
+            self.player.group = g
+            pseudo = self.subsession.player_set.get(pseudo=True)
+            pseudo.group = g
+        else:
+            g = pseudo.group
+            pseudo.group = None
+            self.player.group = g
         self.player.tax_paid = self.player.endowment * Constants.tax_rate
 
+    # def before_next_page(self):
+    #     self.player.tax_paid = self.player.endowment * Constants.tax_rate
+
+class IntermittentWP(WaitPage):
+    after_all_players_arrive = 'after_group_is_formed'
 
 class KDeclare(OfficialPage):
     form_model = 'group'
@@ -87,12 +105,12 @@ class Incentives(Page):
 
 
 page_sequence = [
-    FirstWP,
     Instructions,
     Examples,
     CQs,
     BeforeTheGame,
     PayTax,
+    IntermittentWP,
     KDeclare,
     ResultsWaitPage,
     Results,
