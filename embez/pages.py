@@ -92,7 +92,7 @@ class ResultsWaitPage(WaitPage):
 
     def vars_for_template(self):
         if self.player.role() == 'officer':
-            return dict(body_text=self.body_text)
+            return dict(body_text='Пожалуйста, подождите второго участника')
         else:
             return dict(body_text='Пожалуйста, ожидайте решения Чиновника о коэффициенте')
 
