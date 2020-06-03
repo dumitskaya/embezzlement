@@ -1,0 +1,38 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-danger text-center lead">
+        Ваша роль: <span class="font-weight-bold">{{ player.role_desc }}</span>
+    </div>
+    <div class="card my-3">
+        <div class="card-body">
+            {% if player.role == 'officer' %}
+                Это означает, что от (<b>Чиновника</b>) вашего решения каким вы объявите коэффициент на следующей странице
+                будет зависеть бонус - ваш и второго участника.
+            {% else %}
+                <div>
+                    Это означает, что на следующей странице второй участник (<b>Чиновник</b>) увидит истинный
+                    коэффициент,
+                    и объявит вам его значение.
+                </div>
+                <div>
+                    От объявленного <b>Чиновником</b> значения будет зависеть ваш и его бонус.
+                </div>
+            {% endif %}
+            <div class="alert alert-primary font-weight-bold text-center my-3">
+                Вы всегда можете воспользоваться калькулятором из меню выше, чтобы понять как будет считаться ваш бонус.
+            </div>
+        </div>
+    </div>
+
+    <div class="my-3">
+        {% next_button %}
+    </div>
+{% endblock %}
+
+

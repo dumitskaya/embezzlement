@@ -8,7 +8,6 @@ class FirstWP(WaitPage):
     group_by_arrival_time = True
 
 
-
 class Instructions(InstructionPage):
     pass
 
@@ -42,7 +41,10 @@ class BeforeTheGame(InstructionPage):
 
         return dict(results=results)
 
+
 from .models import Group
+
+
 class PayTax(InstructionPage):
     def before_next_page(self):
         pseudo = self.subsession.player_set.get(pseudo=True)
@@ -63,8 +65,14 @@ class PayTax(InstructionPage):
     # def before_next_page(self):
     #     self.player.tax_paid = self.player.endowment * Constants.tax_rate
 
+
 class IntermittentWP(WaitPage):
     after_all_players_arrive = 'after_group_is_formed'
+
+
+class RoleAnnouncement(InstructionPage):
+    pass
+
 
 class KDeclare(OfficialPage):
     form_model = 'group'
@@ -81,6 +89,12 @@ class KBelief(CitizenPage):
 
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = 'set_payoffs'
+
+    def vars_for_template(self):
+        if self.player.role() == 'officer':
+            return dict(body_text=self.body_text)
+        else:
+            return dict(body_text='Пожалуйста, ожидайте решения Чиновника о коэффициенте')
 
 
 class Results(Page):
@@ -107,10 +121,10 @@ class Incentives(Page):
 page_sequence = [
     Instructions,
     Examples,
-    CQs,
     BeforeTheGame,
     PayTax,
     IntermittentWP,
+    RoleAnnouncement,
     KDeclare,
     ResultsWaitPage,
     Results,
