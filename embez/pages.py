@@ -65,8 +65,16 @@ class PayTax(InstructionPage):
     # def before_next_page(self):
     #     self.player.tax_paid = self.player.endowment * Constants.tax_rate
 
-
+from django.utils.safestring import mark_safe
 class IntermittentWP(WaitPage):
+    body_text = mark_safe("""
+      <div class="alert alert-danger font-weight-bold text-center">
+        Сейчас вам необходимо  подождать второго участника Толоки. Пожалуйста, проявите терпение, так
+        как это может занять некоторое время.
+        Если вы ждете больше нескольких минут, дайте нам знать через систему сообщений толоки или по e-mail  
+        <a href="mailto:fchapkovskiy@hse.ru">fchapkovskiy@hse.ru</a>.
+    </div>
+    """)
     after_all_players_arrive = 'after_group_is_formed'
 
 
