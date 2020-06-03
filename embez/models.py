@@ -127,7 +127,7 @@ class Group(BaseGroup):
         The officer payoff is diminished by the embezzled amount IF he is checked.
         """
         self.officer_fine = self.embezzled_amount * Constants.fine_coef
-        self.officer.payoff -= self.officer_checked * self.true_k * self.officer_fine
+        self.officer.payoff -= self.officer_checked * (not self.true_k) * self.officer_fine
 
     def set_payoffs(self):
         # we get two user (officer and citizen)
