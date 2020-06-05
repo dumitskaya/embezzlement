@@ -1,54 +1,64 @@
 {% load otree %}
 <div class="container" id='{{ vue_app_id }}' v-cloak>
     <div class="row">
-        <div class="col">
-            <div class="form-group " v-if='!initialK'>
+        <div class="col d-flex justify-content-center flex-column">
+            <div class="form-group d-flex justify-content-center flex-column align-items-center" v-if='!initialK'>
 
                 <label class="col-form-label" for="id_k_declare_0">Выберите для примера истинное значение коэффициента
                     К:</label>
-                <div class="controls  field-k_declare">
+                <div class="controls  d-flex flex-row">
 
                     <div class="form-check form-check-inline" v-for='(i, ind) in  KChoices'>
-                        <input type="radio" name="true_k" :value='i' v-model='trueK' required
-                               :id="`id_true_k_${ind}`" class="form-check-input">
 
-                        <label :for="`id_true_k_${ind}`" class="form-check-label">[[i]]</label>
+                        <button :class="getBtnCls(i)" role="button" type="button" :data-value="i"
+                                v-model='trueK' @click="trueK=i"
+                        >
+                            [[i]]
+                        </button>
+
+
                     </div>
 
                 </div>
 
             </div>
             <div v-if="trueK">
-                <div class="alert alert-danger my-3" v-if='initialK'>
-                    Истинное значение коэффициента: [[trueK]]
-                </div>
 
-                <div class="form-group required">
+
+                <div class="form-group d-flex justify-content-center flex-column align-items-center">
 
                     <label class="col-form-label" for="id_k_declare_0">{{ k_declare_text }}:</label>
-                    <div class="controls  field-k_declare">
+                    <div class="controls  field-k_declare d-flex">
 
                         <div class="form-check form-check-inline" v-for='(i, ind) in  KDchoices'>
-                            <input type="radio" name="k_declare" :value='i.toFixed(2)' v-model='declaredK' required
-                                   :id="`id_k_declare_${ind}`" class="form-check-input">
+                            <button :class="getDBtnCls(i)" role="button" type="button" :data-value="i"
+                                    v-model='declaredK' @click="declaredK=i"
+                            >
+                                [[i]]
+                            </button>
 
-                            <label :for="`id_k_declare_${ind}`" class="form-check-label">[[i]]</label>
+
                         </div>
 
                     </div>
 
                 </div>
-                <div class="info" v-if='declaredK'>
-
-                    <div class="alert alert-info">
-                        {{ citizen_payoff_text }} [[citizenPayoff()]]
-                    </div>
-                    <div class="alert alert-info">
-                        {{ officer_payoff_no_text }} [[officerPayoffNo()]]
-                    </div>
-                    <div class="alert alert-info">
-                        {{ officer_payoff_yes_text }} [[officerPayoffYes()]]
-                    </div>
+                <input type="hidden" name="k_declare" :value="getKforOtree()"/>
+                <div v-if='declaredK'>
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <td>{{ citizen_payoff_text }}</td>
+                            <td>[[citizenPayoff()]]</td>
+                        </tr>
+                        <tr>
+                            <td> {{ officer_payoff_no_text }}</td>
+                            <td> [[officerPayoffNo()]]</td>
+                        </tr>
+                        <tr>
+                            <td> {{ officer_payoff_yes_text }}</td>
+                            <td> [[officerPayoffYes()]]</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -65,7 +75,11 @@
                 KChoices: {{Constants.K_CHOICES|json}},
                 trueK: null,
                 totalTaxesPaid: {{total_taxes|json}},
-                declaredK: null
+                declaredK: null,
+                btnClassObject: {
+                    'btn-outline-primary': true,
+                    'btn btn-sm ': true,
+                }
             };
         },
         created() {
@@ -80,6 +94,33 @@
             }
         },
         methods: {
+            getKforOtree() {
+                if (this.declaredK === undefined || this.declaredK === null) {
+                    return ''
+                } else {
+                    return Number.parseFloat(this.declaredK).toFixed(2)
+                }
+
+
+            },
+            getBtnCls(i) {
+                clsObj = {...this.btnClassObject};
+
+                if (i === this.trueK) {
+                    clsObj['btn-outline-primary'] = false;
+                    clsObj['btn-danger'] = true;
+                }
+                return {...clsObj,};
+            },
+            getDBtnCls(i) {
+                clsObj = {...this.btnClassObject};
+
+                if (i === this.declaredK) {
+                    clsObj['btn-outline-primary'] = false;
+                    clsObj['btn-danger'] = true;
+                }
+                return {...clsObj,};
+            },
             citizenBonusDiff() {
                 return (this.kDiff * this.totalTaxesPaid) / 2;
             },
@@ -87,13 +128,13 @@
                 return this.kDiff * this.totalTaxesPaid;
             },
             officerPayoffNo() {
-                return 10-5+this.kDiff * this.totalTaxesPaid+(this.declaredK * this.totalTaxesPaid) / 2;
+                return 10 - 5 + this.kDiff * this.totalTaxesPaid + (this.declaredK * this.totalTaxesPaid) / 2;
             },
             officerPayoffYes() {
-                return 10-5+this.kDiff * this.totalTaxesPaid+(this.declaredK * this.totalTaxesPaid) / 2 - this.kDiff * this.totalTaxesPaid * 3 / 2;
+                return 10 - 5 + this.kDiff * this.totalTaxesPaid + (this.declaredK * this.totalTaxesPaid) / 2 - this.kDiff * this.totalTaxesPaid * 3 / 2;
             },
             citizenPayoff() {
-                return 10-5+(this.declaredK * this.totalTaxesPaid) / 2;
+                return 10 - 5 + (this.declaredK * this.totalTaxesPaid) / 2;
             },
             officerfine() {
                 return this.kDiff * this.totalTaxesPaid * 3 / 2;

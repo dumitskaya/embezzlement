@@ -24,7 +24,7 @@
                 <td>Истинный коэффициент</td>
                 <td>{{ group.real_k }}</td>
             </tr>
-            <tr>
+            <tr class="bg-primary text-white">
                 <td>Объявленный Вами коэффициент</td>
                 <td>{{ group.k_declare }}</td>
             </tr>
@@ -49,7 +49,7 @@
             {% endif %}
 
         {% else %}
-            <tr>
+              <tr class="bg-primary text-white">
                 <td>Объявленный Чиновником коэффициент</td>
                 <td>{{ group.k_declare }}</td>
             </tr>
@@ -58,9 +58,13 @@
                 <td>{{ group.individual_share }}</td>
             </tr>
         {% endif %}
-        <tr>
-            <td>Ваш финальный бонус</td>
+          <tr class="bg-primary text-white">
+            <td>Ваш  бонус</td>
             <td>{{ player.payoff }}</td>
+        </tr>
+         <tr class="bg-success text-white">
+            <th>Ваш финальный бонус в Толоке в центах</th>
+            <th>{{ participant.payoff_in_real_world_currency }}</th>
         </tr>
 
     </table>

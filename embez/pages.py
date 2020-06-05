@@ -6,7 +6,6 @@ from .models import Constants
 
 class FirstWP(WaitPage):
     group_by_arrival_time = True
-    after_all_players_arrive = 'after_group_is_formed'
 
 
 class Instructions(InstructionPage):
@@ -28,6 +27,12 @@ class CQs(InstructionPage):
         "cq3_2",
     ]
 
+    def before_next_page(self):
+        qs = Constants.correct_answers
+        results = [getattr(self.player, k) == v for k, v in qs.items()]
+
+        self.player.tot_correct = sum(results)
+
 
 class BeforeTheGame(InstructionPage):
     def vars_for_template(self):
@@ -37,9 +42,44 @@ class BeforeTheGame(InstructionPage):
         return dict(results=results)
 
 
+from .models import Group
+
+
 class PayTax(InstructionPage):
     def before_next_page(self):
+        pseudo = self.subsession.player_set.get(pseudo=True)
+        if not pseudo.group:
+
+            g = Group.objects.create(session=self.session, subsession=self.subsession,
+                                     id_in_subsession=Group.objects.all().count() + 1)
+            g.save()
+            self.player.group = g
+            pseudo = self.subsession.player_set.get(pseudo=True)
+            pseudo.group = g
+        else:
+            g = pseudo.group
+            pseudo.group = None
+            self.player.group = g
         self.player.tax_paid = self.player.endowment * Constants.tax_rate
+
+    # def before_next_page(self):
+    #     self.player.tax_paid = self.player.endowment * Constants.tax_rate
+
+from django.utils.safestring import mark_safe
+class IntermittentWP(WaitPage):
+    body_text = mark_safe("""
+      <div class="alert alert-danger font-weight-bold text-center">
+        Сейчас вам необходимо  подождать второго участника Толоки. Пожалуйста, проявите терпение, так
+        как это может занять некоторое время.
+        Если вы ждете больше нескольких минут, дайте нам знать через систему сообщений толоки или по e-mail  
+        <a href="mailto:fchapkovskiy@hse.ru">fchapkovskiy@hse.ru</a>.
+    </div>
+    """)
+    after_all_players_arrive = 'after_group_is_formed'
+
+
+class RoleAnnouncement(InstructionPage):
+    pass
 
 
 class KDeclare(OfficialPage):
@@ -58,47 +98,44 @@ class KBelief(CitizenPage):
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = 'set_payoffs'
 
+    def vars_for_template(self):
+        if self.player.role() == 'officer':
+            return dict(body_text='Пожалуйста, подождите второго участника')
+        else:
+            return dict(body_text='Пожалуйста, ожидайте решения Чиновника о коэффициенте')
+
 
 class Results(Page):
     pass
 
-class Incentives_Off(Page):
-    def is_displayed(self):
-        return self.player.id_in_group == 1
-    template_name = 'questionnaire/Incentives_Off.html'
-    form_model = 'player'
-    form_fields = [
-            'off_pos',
-            'off_neg'
-    ]
 
-class Incentives_Cit(Page):
-    def is_displayed(self):
-        return self.player.id_in_group != 1
-    template_name = 'questionnaire/Incentives_Cit.html'
+class Incentives(Page):
     form_model = 'player'
-    form_fields = [
-            'cit_pos',
-            'cit_neg'
-    ]
-class Questions(Page):
-    template_name = 'questionnaire/Questions.html'
-    form_model = 'player'
-    form_fields = [
-            'quest'
-    ]
+
+    def get_form_fields(self):
+        if self.player.role() == 'officer':
+            q = [
+                'off_pos',
+                'off_neg'
+            ]
+        else:
+            q = [
+                'cit_pos',
+                'cit_neg'
+            ]
+        return q + ['quest']
+
+
 page_sequence = [
-    FirstWP,
     Instructions,
     Examples,
-    CQs,
     BeforeTheGame,
     PayTax,
+    IntermittentWP,
+    RoleAnnouncement,
     KDeclare,
     ResultsWaitPage,
     Results,
     KBelief,
-    Incentives_Off,
-    Incentives_Cit,
-    Questions,
+    Incentives,
 ]
