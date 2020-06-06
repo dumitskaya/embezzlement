@@ -6,13 +6,18 @@ from .models import Constants
 
 class FirstWP(WaitPage):
     group_by_arrival_time = True
-
+def is_displayed(self):
+        return self.round_number == 1
 
 class Instructions(InstructionPage):
+   def is_displayed(self):
+        return self.round_number == 1
     pass
 
 
 class Examples(InstructionPage):
+   def is_displayed(self):
+        return self.round_number == 1
     pass
 
 
@@ -40,7 +45,9 @@ class BeforeTheGame(InstructionPage):
         results = [getattr(self.player, k) == v for k, v in qs.items()]
 
         return dict(results=results)
-
+        self.player.tot_correct = sum(results)
+def is_displayed(self):
+        return self.round_number == 1
 
 from .models import Group
 
