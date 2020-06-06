@@ -23,7 +23,7 @@ Your app description
 class Constants(BaseConstants):
     name_in_url = 'embez'
     players_per_group = None
-    num_rounds = 2
+    num_rounds = 1
     k_min = 1
     k_max = 3
     k_step = 0.25

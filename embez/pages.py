@@ -6,18 +6,13 @@ from .models import Constants
 
 class FirstWP(WaitPage):
     group_by_arrival_time = True
-def is_displayed(self):
-        return self.round_number == 1
+
 
 class Instructions(InstructionPage):
-   def is_displayed(self):
-        return self.round_number == 1
     pass
 
 
 class Examples(InstructionPage):
-   def is_displayed(self):
-        return self.round_number == 1
     pass
 
 
