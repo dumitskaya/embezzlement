@@ -54,11 +54,17 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='full',
-        display_name="Full version",
+        display_name="Full version - baseline",
         num_demo_participants=2,
         app_sequence=['start', 'embez', 'questionnaire', 'last'],
-
-
+        treatment='baseline',
+    ),
+    dict(
+        name='fullneg',
+        display_name="Full version - negative",
+        num_demo_participants=2,
+        app_sequence=['start', 'embez', 'questionnaire', 'last'],
+        treatment='negative',
     ),
 ]
 
