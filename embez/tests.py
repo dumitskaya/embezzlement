@@ -20,9 +20,12 @@ class PlayerBot(Bot):
         if self.player.role() == 'officer':
             available_choices = self.group.k_declare_choices()
             yield Submission(KDeclare, dict(k_declare=random.choice(available_choices)), check_html=False)
-
+        else:
+            if self.session.config.get('treatment') == 'negative':
+                yield CheckIncrease, {'check_investment': random.choice([0, 5])}
         yield Results
         if self.player.role() == 'citizen':
+
             yield KBelief, dict(k_belief=random.choice(self.group.k_belief_choices()))
         if self.player.role() == 'officer':
             ianswers = dict(off_pos=rb(),

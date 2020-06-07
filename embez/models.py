@@ -29,10 +29,12 @@ class Constants(BaseConstants):
     k_step = 0.25
     endowment = 10
     tax_rate = .5
+    left_endowment = int((1 - tax_rate) * endowment)
     presumed_players_per_group = 2
     total_taxes = presumed_players_per_group * endowment * tax_rate
     coef = .2
     checking_prob = .3
+    investment_coef = 0.05  # that is the probability increase due to investment
     checking_prob_formatted = f"{checking_prob:0.0%}"
     rest_prob_formatted = f"{1 - checking_prob:0.0%}"
     K_CHOICES = list(np.arange(k_min, k_max + 0.01, k_step))
@@ -85,6 +87,8 @@ class Subsession(BaseSubsession):
 
 class Group(BaseGroup):
     real_k = models.FloatField()
+    check_investment = models.IntegerField(min=0, max=Constants.left_endowment)
+    final_check_prob = models.FloatField(initial=Constants.checking_prob)
     k_declare = models.FloatField(
         widget=widgets.RadioSelectHorizontal,
         label='Выберите значение коэффициента, которое Вы объявите Гражданину:')
@@ -117,10 +121,21 @@ class Group(BaseGroup):
         # we also generate a certain K based on which official can declare his own K
         for i, p in enumerate(self.get_players(), start=1):
             p.id_in_group = i
+
+        self.real_k = random.choice(Constants.K_CHOICES)
+        current_inp = self.get_players()[0].participant._index_in_pages
+        numlasts = self.session.participant_set.filter(_index_in_pages__lt=current_inp)
+        if numlasts.count() == 1:
+            lastone = numlasts[0]
+            if lastone.id_in_session == 100000:
+                print('GONNA DELETE')
+                lastone.delete()
+
+    def generate_checking(self):
+        """Define whether officer is checked"""
         r = random.random()
-        g = self
-        g.officer_checked = r < Constants.checking_prob
-        g.real_k = random.choice(Constants.K_CHOICES)
+
+        self.officer_checked = r < self.final_check_prob
 
     def apply_sanctions(self):
         """Applying sanctions on officer if he is checked.
@@ -130,6 +145,7 @@ class Group(BaseGroup):
         self.officer.payoff -= self.officer_checked * (not self.true_k) * self.officer_fine
 
     def set_payoffs(self):
+        self.generate_checking()
         # we get two user (officer and citizen)
         officer = self.officer
         citizen = self.get_player_by_role('citizen')

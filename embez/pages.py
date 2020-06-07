@@ -67,7 +67,10 @@ class PayTax(InstructionPage):
     # def before_next_page(self):
     #     self.player.tax_paid = self.player.endowment * Constants.tax_rate
 
+
 from django.utils.safestring import mark_safe
+
+
 class IntermittentWP(WaitPage):
     body_text = mark_safe("""
       <div class="alert alert-danger font-weight-bold text-center">
@@ -82,6 +85,17 @@ class IntermittentWP(WaitPage):
 
 class RoleAnnouncement(InstructionPage):
     pass
+
+
+class CheckIncrease(CitizenPage):
+    form_model = 'group'
+    form_fields = ['check_investment']
+
+    def extra_is_displayed(self):
+        return self.session.config.get('treatment') == 'negative'
+
+    def before_next_page(self):
+        self.group.final_check_prob = Constants.checking_prob + self.group.check_investment * Constants.investment_coef
 
 
 class KDeclare(OfficialPage):
@@ -135,6 +149,7 @@ page_sequence = [
     PayTax,
     IntermittentWP,
     RoleAnnouncement,
+    CheckIncrease,
     KDeclare,
     ResultsWaitPage,
     Results,

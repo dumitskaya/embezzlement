@@ -9,6 +9,11 @@ register = template.Library()
 import re
 
 
+@register.filter
+def percentage(value):
+    return f"{value:0.0%}"
+
+
 @register.tag(name="card")
 def do_card(parser, token, ):
     nodelist = parser.parse(('endcard',))
