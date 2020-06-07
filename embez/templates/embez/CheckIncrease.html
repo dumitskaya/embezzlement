@@ -1,0 +1,62 @@
+{% extends "global/Page.html" %}
+{% load otree hse %}
+
+{% block title %}
+    Инвестиции в проверку Чиновника
+{% endblock %}
+
+{% block content %}
+    {% card %}
+        <div>С вероятностью {{ Constants.checking_prob_formatted }} коэффициент, объявленный Чиновником,
+            будет проверен компьютером, и если будет найдено расхождение, бонус Чиновника будет уменьшен.
+        </div>
+        <div>Вы можете вложить от 0 до {{ Constants.left_endowment }} токенов в то, чтобы увеличить вероятность проверки
+            Чиновника.
+        </div>
+        <div>1 токен, вложенный вами, увеличивает вероятность проверки на {{ Constants.investment_coef|percentage }}.
+
+        </div>
+    {% endcard %}
+    {% formfield group.check_investment label='Вложение в увеличение вероятности проверки' %}
+    <div class="form-group ">
+        <label class="col-form-label">Вероятность проверки Чиновника:</label>
+        <div class="controls  ">
+            <div class="input-group input-group-narrow">
+                <input type="number" value="None" step="1" min="0" max="100" required="" id="id_prob"
+                       class="form-control" disabled>
+
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% next_button %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const initialProb = {{ Constants.checking_prob|json }};
+        const probCont = $('#id_prob');
+        const endowment ={{ Constants.left_endowment|json  }};
+        const coef = {{ Constants.investment_coef|json }};
+        probCont.val(initialProb * 100);
+        $('#id_check_investment').on('input', function (e) {
+            let curval = this.value;
+            if (curval > endowment) {
+                this.value = endowment
+
+            }
+            if (curval < 0) {
+                this.value = 0;
+
+            }
+            ;
+            if (this.value === undefined || this.value === '') {
+                probCont.val(initialProb * 100)
+            } else {
+                probCont.val(parseInt((initialProb + coef * this.value) * 100));
+            }
+        })
+    </script>
+{% endblock %}

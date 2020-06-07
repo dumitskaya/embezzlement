@@ -13,7 +13,9 @@ SESSION_CONFIG_DEFAULTS = dict(
     participation_fee=0.00,
     doc="",
     use_browser_bots=False,
-    toloka_participation_fee=TOLOKA_PARTICIPATION_FEE
+    toloka_participation_fee=TOLOKA_PARTICIPATION_FEE,
+    toloka=True,
+    toloka_sandbox=True
 )
 
 SESSION_CONFIGS = [
@@ -27,8 +29,19 @@ SESSION_CONFIGS = [
             'last'
         ],
         treatment='baseline',
-        toloka=True,
-        toloka_sandbox=True
+
+    ),
+    dict(
+        name='negative',
+        display_name="Embezzlement game - negative",
+        num_demo_participants=2,
+        app_sequence=[
+            'start',
+            'embez',
+            'last'
+        ],
+        treatment='negative',
+
     ),
 
     dict(
@@ -36,8 +49,7 @@ SESSION_CONFIGS = [
         display_name="Questionnaire + Toloka code",
         num_demo_participants=1,
         app_sequence=['questionnaire', 'last'],
-        toloka=True,
-        toloka_sandbox=True
+
 
     ),
     dict(
@@ -45,8 +57,7 @@ SESSION_CONFIGS = [
         display_name="Full version",
         num_demo_participants=2,
         app_sequence=['start', 'embez', 'questionnaire', 'last'],
-        toloka=True,
-        toloka_sandbox=True
+
 
     ),
 ]
